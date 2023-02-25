@@ -27,7 +27,9 @@ const Category = <T extends string>({
       )}
       onClick={chosen ? undefined : () => onClick(id)}
     >
-      <li>{label}</li>
+      <li className="overflow-hidden text-ellipsis whitespace-nowrap">
+        {label}
+      </li>
     </Ripples>
   );
 };

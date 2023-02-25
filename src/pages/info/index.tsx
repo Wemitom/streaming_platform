@@ -21,7 +21,7 @@ const Info = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header showSidebar={() => setShowSidebar(!showSidebar)} />
+      <Header showSidebar={() => setShowSidebar(!showSidebar)} sidebar />
       <div className="w-full min-h-full md:flex md:flex-row">
         <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
           {categoriesInfo.map((c) => (

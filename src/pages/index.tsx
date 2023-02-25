@@ -25,7 +25,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header showSidebar={() => setShowSidebar(!showSidebar)} />
+      <Header
+        showSidebar={() => setShowSidebar((prevState) => !prevState)}
+        sidebar
+      />
       <div className="w-full md:flex md:flex-row">
         <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
           {categories.map((c) => (
