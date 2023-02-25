@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    @apply h-full text-white;
+  }
+  body {
+    @apply h-full;
+  }
+  #__next {
+    @apply h-full;
+  }
+}
+
 .simplebar-scrollbar::before {
   background: linear-gradient(
       rgba(200, 29, 17, 0.3137254901960784),

@@ -17,8 +17,8 @@ const Sidebar = ({
   return (
     <aside
       className={classNames(
-        'flex flex-row lg:block lg:relative min-h-full w-full z-20 lg:w-2/12 border-slate-700 border-r lg:p-1',
-        show ? 'absolute top-0' : 'hidden'
+        'flex flex-row lg:block lg:relative min-h-full w-full lg:w-2/12 border-slate-700 border-r lg:p-1',
+        show ? 'absolute top-0 z-20' : 'hidden'
       )}
     >
       <ul
