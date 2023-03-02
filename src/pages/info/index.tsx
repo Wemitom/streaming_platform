@@ -1,16 +1,12 @@
-import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
-import Sidebar from '@/components/common/Sidebar';
-import Category from '@/components/common/Sidebar/Category';
-import { CategoriesInfo, categoriesInfo, infoContent } from '@/utils/constants';
-import Head from 'next/head';
 import { useState } from 'react';
-import SimpleBar from 'simplebar-react';
-import 'simplebar-react/dist/simplebar.min.css';
+
+import Head from 'next/head';
+
+import HomePageLayout from '@/layouts/HomePageLayout';
+import { CategoriesInfo, categoriesInfo, infoContent } from '@/utils/constants';
 
 const Info = () => {
   const [categoryInfo, setCategoryInfo] = useState<CategoriesInfo>('A');
-  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <>
@@ -21,37 +17,16 @@ const Info = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header showSidebar={() => setShowSidebar(!showSidebar)} sidebar />
-      <div className="w-full min-h-full md:flex md:flex-row">
-        <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
-          {categoriesInfo.map((c) => (
-            <Category
-              key={c}
-              chosen={c === categoryInfo}
-              label={c}
-              icon="a"
-              id={c}
-              onClick={(c) => {
-                setCategoryInfo(c);
-                setShowSidebar(false);
-              }}
-            />
-          ))}
-        </Sidebar>
-        <main className="relative flex flex-row w-full lg:w-10/12">
-          <SimpleBar
-            style={{ height: 'calc(100vh - 7rem)' }}
-            className="w-full ml-auto scrollbar"
-            forceVisible
-          >
-            <div className="bg-[#2a3952]/80 p-3 rounded-md w-auto m-3 shadow-md">
-              <h3 className="mb-6 text-2xl text-center">{categoryInfo}</h3>
-              <p className="text-[#969fab]">{infoContent[categoryInfo]}</p>
-            </div>
-          </SimpleBar>
-        </main>
-      </div>
-      <Footer />
+      <HomePageLayout
+        curCategory={categoryInfo}
+        categories={categoriesInfo}
+        setCategory={setCategoryInfo}
+      >
+        <div className="m-3 w-auto rounded-md bg-[#2a3952]/80 p-3 shadow-md">
+          <h3 className="mb-6 text-center text-2xl">{categoryInfo}</h3>
+          <p className="text-[#969fab]">{infoContent[categoryInfo]}</p>
+        </div>
+      </HomePageLayout>
     </>
   );
 };

@@ -1,6 +1,7 @@
+import Ripples from 'react-ripples';
+
 import { Categories, CategoriesInfo } from '@/utils/constants';
 import { classNames } from '@/utils/functions';
-import Ripples from 'react-ripples';
 
 interface Props<T> {
   chosen: boolean;
@@ -15,7 +16,7 @@ const Category = <T extends string>({
   label,
   icon,
   id,
-  onClick,
+  onClick
 }: Props<T>) => {
   return (
     <Ripples

@@ -3,31 +3,42 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        deskVector: 'url(/images/bgDesk.png)',
+        phoneVector: 'url(/images/bgPhone.svg)'
+      },
       colors: {
-        primary: '#1a2b44',
-        primaryBorder: '#161a25',
-        secondary: '#764b75',
+        primary: '#481372',
+        header: '#48466D',
+        footer: '#D9D9D9'
       },
       transitionProperty: {
-        background: 'background',
+        background: 'background'
       },
       keyframes: {
         slideIn: {
           from: { transform: 'translateX(-999px)' },
-          to: { transform: 'translateX(0px)' },
+          to: { transform: 'translateX(0px)' }
         },
         fadeIn: {
           from: { opacity: 0 },
-          to: { transform: 100 },
-        },
+          to: { transform: 100 }
+        }
+      },
+      fontSize: {
+        custom13: '13px',
+        custom12: '12px'
       },
       animation: {
         'slide-in': 'slideIn 0.3s ease-in-out',
         'fade-in': 'fadeIn 0.1s linear',
         'slide-out': 'slideIn 0.3s ease-in-out reverse',
-        'fade-out': 'fadeIn 0.2s linear reverse',
+        'fade-out': 'fadeIn 0.2s linear reverse'
       },
-    },
+      height: {
+        area: '4.6875rem'
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };

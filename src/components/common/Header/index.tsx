@@ -1,23 +1,26 @@
 import React from 'react';
+
 import Image from 'next/image';
+
+import logoSVG from '../../../../public/images/logo.svg';
 
 const Header = ({
   showSidebar,
-  sidebar,
+  sidebar
 }: {
   showSidebar?: () => void;
   sidebar?: boolean;
 }) => {
   return (
-    <header className="sticky top-0 z-10 flex flex-row items-center w-full gap-4 p-1 shadow-md h-14 bg-primary border-bottom border-primaryBorder">
+    <header className="bg-header h-area sticky top-0 z-10 flex w-full flex-row items-center gap-4 p-1 shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
       {sidebar && (
         <div
-          className="p-2 ml-3 duration-200 rounded-full cursor-pointer transition-background lg:hidden hover:bg-white/40"
+          className="transition-background ml-3 cursor-pointer rounded-full p-2 duration-200 hover:bg-white/40 lg:hidden"
           onClick={showSidebar}
         >
           <Image
             priority
-            src="/hamburger_icon.svg"
+            src="/images/hamburger.svg"
             alt="hamburger_icon"
             width="32"
             height="32"
@@ -26,10 +29,9 @@ const Header = ({
       )}
       <Image
         priority
-        src="/images/logo.png"
+        src={logoSVG}
         alt="logo"
-        width="80"
-        height="48"
+        className="top-2 h-[44px] w-[158px] lg:ml-[3.75rem] lg:h-[58px] lg:w-[180px]"
       />
     </header>
   );

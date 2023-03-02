@@ -1,21 +1,13 @@
-import Head from 'next/head';
-import { Inter } from 'next/font/google';
-import Header from '@/components/common/Header';
-import Streams from '@/components/home/Streams';
-import Footer from '@/components/common/Footer';
-
-import 'simplebar-react/dist/simplebar.min.css';
-import SimpleBar from 'simplebar-react';
-import Sidebar from '@/components/common/Sidebar';
-import Category from '@/components/common/Sidebar/Category';
 import { useState } from 'react';
-import { Categories, categories } from '@/utils/constants';
 
-const inter = Inter({ subsets: ['latin'] });
+import Head from 'next/head';
+
+import Streams from '@/components/home/Streams';
+import HomePageLayout from '@/layouts/HomePageLayout';
+import { Categories, categories } from '@/utils/constants';
 
 export default function Home() {
   const [category, setCategory] = useState<Categories>('all');
-  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <>
@@ -25,37 +17,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header
-        showSidebar={() => setShowSidebar((prevState) => !prevState)}
-        sidebar
-      />
-      <div className="w-full md:flex md:flex-row">
-        <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
-          {categories.map((c) => (
-            <Category
-              key={c}
-              chosen={c === category}
-              label={c}
-              icon="a"
-              id={c}
-              onClick={(c) => {
-                setCategory(c);
-                setShowSidebar(false);
-              }}
-            />
-          ))}
-        </Sidebar>
-        <main className="flex flex-row w-full lg:w-10/12">
-          <SimpleBar
-            style={{ height: 'calc(100vh - 112px)' }}
-            className="w-full scrollbar"
-            forceVisible
-          >
-            <Streams />
-          </SimpleBar>
-        </main>
-      </div>
-      <Footer />
+
+      <HomePageLayout
+        curCategory={category}
+        categories={categories}
+        setCategory={setCategory}
+      >
+        <Streams />
+      </HomePageLayout>
     </>
   );
 }

@@ -5,6 +5,7 @@
 @layer base {
   html {
     @apply h-full text-white;
+    font-family: 'Montserrat'
   }
   body {
     @apply h-full;

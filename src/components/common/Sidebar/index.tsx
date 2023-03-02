@@ -1,11 +1,12 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { classNames } from '@/utils/functions';
 import useOutsideClickDetect from '@/utils/hooks/useOutsideClickDetect';
-import { useEffect, useRef, useState } from 'react';
 
 const Sidebar = ({
   children,
   show,
-  hide,
+  hide
 }: {
   children: JSX.Element[] | JSX.Element;
   show: boolean;
@@ -33,12 +34,12 @@ const Sidebar = ({
     <aside
       ref={refAside}
       className={classNames(
-        'flex flex-row w-full min-h-full border-r lg:block lg:relative lg:w-2/12 border-slate-700 lg:p-1 absolute top-0 z-20'
+        'flex flex-row w-full min-h-full border-r lg:block lg:relative lg:w-2/12 border-white/40 lg:p-1 absolute top-0 z-30'
       )}
     >
       <ul
         className={classNames(
-          'flex flex-col w-4/12 min-h-full p-3 pl-4 lg:w-full bg-primary lg:animate-none lg:translate-x-0',
+          'flex flex-col w-9/12 min-h-full p-3 pl-4 lg:w-full lg:bg-none lg:animate-none lg:translate-x-0 z-20 bg-gradient-to-b from-header to-primary',
           show
             ? 'animate-slide-in'
             : '-translate-x-96 ease-in-out delay-200 transition-transform'
@@ -49,7 +50,7 @@ const Sidebar = ({
       </ul>
       <div
         className={classNames(
-          'w-8/12 lg:hidden bg-black/60 lg:animate-none lg:translate-x-0',
+          'w-full lg:hidden bg-black/60 lg:animate-none lg:translate-x-0 absolute h-full z-10',
           show
             ? 'animate-fade-in'
             : 'transition-opacity opacity-0 ease-in-out delay-200'
