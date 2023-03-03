@@ -34,7 +34,7 @@ const Sidebar = ({
     <aside
       ref={refAside}
       className={classNames(
-        'flex flex-row w-full min-h-full border-r lg:block lg:relative lg:w-2/12 border-white/40 lg:p-1 absolute top-0 z-30'
+        'flex flex-row w-full min-h-full border-r lg:block lg:relative lg:w-2/12 border-white/40 lg:p-1 absolute top-0 z-30 hidden'
       )}
     >
       <ul
@@ -50,7 +50,7 @@ const Sidebar = ({
       </ul>
       <div
         className={classNames(
-          'w-full lg:hidden bg-black/60 lg:animate-none lg:translate-x-0 absolute h-full z-10',
+          'w-screen lg:hidden bg-black/60 lg:animate-none lg:translate-x-0 absolute h-screen z-10',
           show
             ? 'animate-fade-in'
             : 'transition-opacity opacity-0 ease-in-out delay-200'

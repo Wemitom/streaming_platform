@@ -4,7 +4,7 @@ import StreamPreview from './StreamPreview';
 
 const Streams = () => {
   return (
-    <div className="mx-4 flex flex-col flex-wrap gap-7 p-3 lg:mr-0 lg:flex-row">
+    <div className="mx-4 flex flex-col flex-wrap gap-7 p-3 md:mr-0 md:flex-row">
       {streams.map((stream) => (
         <StreamPreview key={`stream_${stream.username}`} {...stream} />
       ))}
