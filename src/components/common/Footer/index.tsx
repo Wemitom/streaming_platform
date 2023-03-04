@@ -11,11 +11,13 @@ const FooterBtn = ({
   icon,
   text,
   shorten,
+  shortText,
   right
 }: {
   to: string;
   icon: string;
   text: string;
+  shortText?: string;
   shorten?: boolean;
   right?: boolean;
 }) => {
@@ -23,12 +25,12 @@ const FooterBtn = ({
     <Link
       href={to}
       className={classNames(
-        'hover:bg-footer/20 transition-background flex flex-col lg:flex-row items-center gap-2 rounded-sm lg:px-6 lg:h-14 text-xs lg:text-xl px-2 h-full justify-center',
+        'hover:bg-footer/20 transition-background flex flex-col lg:flex-row items-center gap-2 rounded-sm lg:px-6 lg:h-14 text-xs lg:text-lg px-2 h-full justify-center',
         right ? 'lg:ml-auto' : ''
       )}
     >
       <Image src={icon} alt="info" width={32} height={32} />
-      <p>{shorten ? text.split(' ')[0] : text}</p>
+      <p>{shorten && shortText ? shortText : text}</p>
     </Link>
   );
 };
@@ -50,20 +52,28 @@ const Footer = () => {
   return (
     <footer>
       <nav className="bg-footer/[0.08] h-area sticky bottom-0 z-10 grid w-full auto-cols-fr grid-flow-col items-center justify-center shadow-[0_4px_5px_5px_rgba(0,0,0,0.25)] lg:flex lg:flex-row lg:gap-0 lg:px-12">
-        <FooterBtn to="info" icon="/images/info.svg" text="Информация" />
         <FooterBtn
-          to="terms"
+          to="info"
+          icon="/images/info.svg"
+          text="Информация"
+          shortText="Инфо"
+          shorten={!!windowWidth && windowWidth <= LG_BP}
+        />
+        <FooterBtn
+          to="/"
           icon="/images/conditions.svg"
           text="Условия предоставления услуг"
+          shortText="Условия"
           shorten={!!windowWidth && windowWidth <= LG_BP}
         />
         <FooterBtn
-          to="pay"
+          to="/"
           icon="/images/credit.svg"
           text="Пополнить счет"
+          shortText="Счет"
           shorten={!!windowWidth && windowWidth <= LG_BP}
         />
-        <FooterBtn to="login" icon="/images/login.svg" text="Вход" right />
+        <FooterBtn to="/" icon="/images/login.svg" text="Вход" right />
       </nav>
     </footer>
   );

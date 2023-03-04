@@ -1,37 +1,34 @@
+import Image from 'next/image';
 import Ripples from 'react-ripples';
 
-import { Categories, CategoriesInfo } from '@/utils/constants';
 import { classNames } from '@/utils/functions';
 
 interface Props<T> {
   chosen: boolean;
   label: string;
-  icon: string;
   id: T;
   onClick: (val: T) => void;
+  icon?: string;
 }
 
 const Category = <T extends string>({
   chosen,
   label,
-  icon,
   id,
-  onClick
+  onClick,
+  icon
 }: Props<T>) => {
   return (
-    <Ripples
-      during={800}
-      color="rgba(255, 255, 255, 0.3)"
+    <li
       className={classNames(
-        'p-3 text-white rounded-md mx-2',
-        chosen ? 'bg-white/10' : 'cursor-pointer'
+        'p-3 text-white rounded-md mx-2 flex w-full items-center gap-4',
+        chosen ? 'bg-footer/20' : 'cursor-pointer'
       )}
       onClick={chosen ? undefined : () => onClick(id)}
     >
-      <li className="overflow-hidden text-ellipsis whitespace-nowrap">
-        {label}
-      </li>
-    </Ripples>
+      {icon && <Image src={icon} alt={label} width={32} height={32} />}
+      <p className="overflow-hidden text-ellipsis whitespace-nowrap">{label}</p>
+    </li>
   );
 };
 

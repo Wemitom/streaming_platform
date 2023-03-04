@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Head from 'next/head';
 
-import HomePageLayout from '@/layouts/HomePageLayout';
+import MainLayout from '@/layouts/MainLayout';
 import { CategoriesInfo, categoriesInfo, infoContent } from '@/utils/constants';
 
 const Info = () => {
@@ -17,16 +17,16 @@ const Info = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <HomePageLayout
+      <MainLayout
         curCategory={categoryInfo}
         categories={categoriesInfo}
         setCategory={setCategoryInfo}
       >
-        <div className="m-3 w-auto rounded-md bg-[#2a3952]/80 p-3 shadow-md">
+        <div className="bg-footer/[0.14] m-3 w-auto rounded-md p-3 shadow-[7px_7px_12px_rgba(0,0,0,0.25)]">
           <h3 className="mb-6 text-center text-2xl">{categoryInfo}</h3>
-          <p className="text-[#969fab]">{infoContent[categoryInfo]}</p>
+          <p>{infoContent[categoryInfo]}</p>
         </div>
-      </HomePageLayout>
+      </MainLayout>
     </>
   );
 };

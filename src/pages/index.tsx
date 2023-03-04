@@ -3,11 +3,11 @@ import { useState } from 'react';
 import Head from 'next/head';
 
 import Streams from '@/components/home/Streams';
-import HomePageLayout from '@/layouts/HomePageLayout';
-import { Categories, categories } from '@/utils/constants';
+import MainLayout from '@/layouts/MainLayout';
+import { Categories, categories, categoryIcon } from '@/utils/constants';
 
 export default function Home() {
-  const [category, setCategory] = useState<Categories>('all');
+  const [category, setCategory] = useState<Categories>('Все');
 
   return (
     <>
@@ -18,13 +18,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <HomePageLayout
+      <MainLayout
         curCategory={category}
         categories={categories}
         setCategory={setCategory}
+        icons={categoryIcon}
       >
         <Streams />
-      </HomePageLayout>
+      </MainLayout>
     </>
   );
 }

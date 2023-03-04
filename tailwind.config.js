@@ -12,6 +12,9 @@ module.exports = {
         header: '#48466D',
         footer: '#D9D9D9'
       },
+      screens: {
+        sidebar: '1280px'
+      },
       transitionProperty: {
         background: 'background'
       },

@@ -8,33 +8,54 @@ import Sidebar from '@/components/common/Sidebar';
 import Category from '@/components/common/Sidebar/Category';
 
 import 'simplebar-react/dist/simplebar.min.css';
+import { SIDEBAR_BP } from '@/utils/constants';
 
-interface PropsInterface<T> {
+interface PropsInterface<T extends string> {
   children: JSX.Element[] | JSX.Element;
   curCategory: T;
   categories: readonly T[];
   setCategory: (val: T) => void;
+  icons?: Record<T, string>;
 }
 
-const HomePageLayout = <T extends string>({
+const MainLayout = <T extends string>({
   children,
   curCategory,
   categories,
-  setCategory
+  setCategory,
+  icons
 }: PropsInterface<T>) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [divHeight, setDivHeight] = useState('calc(100vh - 150px)');
+  const [sidebarAside, setSidebarAside] = useState(false);
 
   const changeDivHeight = () => setDivHeight(`calc(${innerHeight}px - 150px)`);
+  const changeSidebarAside = () => setSidebarAside(innerWidth <= SIDEBAR_BP);
 
   useEffect(() => {
     window.addEventListener('resize', changeDivHeight);
+    window.addEventListener('resize', changeSidebarAside);
+    console.log(innerHeight);
     changeDivHeight();
+    changeSidebarAside();
 
     return () => {
       window.removeEventListener('resize', changeDivHeight);
+      window.removeEventListener('resize', changeSidebarAside);
     };
   }, []);
+
+  useEffect(() => {
+    if (showSidebar) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [showSidebar]);
 
   return (
     <>
@@ -42,31 +63,37 @@ const HomePageLayout = <T extends string>({
         showSidebar={() => setShowSidebar((prevState) => !prevState)}
         sidebar
       />
-      <div className="lg:bg-deskVector bg-phoneVector flex flex-col bg-[#10121B]/40 bg-cover bg-center bg-no-repeat">
-        <div className="w-full md:flex md:flex-row">
-          <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
+      <div className="lg:bg-deskVector bg-phoneVector flex flex-col overflow-hidden bg-[#10121B]/40 bg-cover bg-center bg-no-repeat">
+        <div
+          className="w-full md:flex md:flex-row"
+          style={{ height: divHeight }}
+        >
+          <Sidebar
+            show={showSidebar}
+            hide={() => setShowSidebar(false)}
+            height={sidebarAside ? '100vh' : divHeight}
+          >
             {categories.map((c) => (
               <Category
                 key={c}
                 chosen={c === curCategory}
                 label={c}
-                icon="a"
                 id={c}
                 onClick={(c) => {
                   setCategory(c);
                   setShowSidebar(false);
                 }}
+                icon={icons && icons[c]}
               />
             ))}
           </Sidebar>
-          <main className="flex w-full flex-row lg:w-10/12">
+          <main className="sidebar:w-10/12 flex w-full flex-row">
             <SimpleBar
-              // eslint-disable-next-line tailwindcss/no-custom-classname
               className="scrollbar w-full"
               style={{
                 height: divHeight
               }}
-              forceVisible
+              autoHide={false}
             >
               {children}
             </SimpleBar>
@@ -78,4 +105,4 @@ const HomePageLayout = <T extends string>({
   );
 };
 
-export default HomePageLayout;
+export default MainLayout;

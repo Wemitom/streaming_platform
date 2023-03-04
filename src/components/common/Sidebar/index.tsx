@@ -1,28 +1,37 @@
 import { useEffect, useRef, useState } from 'react';
 
+import SimpleBar from 'simplebar-react';
+
 import { classNames } from '@/utils/functions';
 import useOutsideClickDetect from '@/utils/hooks/useOutsideClickDetect';
 
 const Sidebar = ({
   children,
   show,
-  hide
+  hide,
+  height
 }: {
   children: JSX.Element[] | JSX.Element;
   show: boolean;
   hide: () => void;
+  height: string;
 }) => {
+  const refAside = useRef<null | HTMLDivElement>(null);
+
   const ref = useRef<null | HTMLUListElement>(null);
   useOutsideClickDetect(ref, hide);
 
-  const refAside = useRef<null | HTMLDivElement>(null);
-
   useEffect(() => {
     let tm: NodeJS.Timeout;
+
     if (show && refAside) {
       refAside.current?.classList.remove('hidden');
+      refAside.current?.classList.add('flex');
     } else if (!show && refAside) {
-      tm = setTimeout(() => refAside.current?.classList.add('hidden'), 300);
+      tm = setTimeout(() => {
+        refAside.current?.classList.add('hidden');
+        refAside.current?.classList.remove('flex');
+      }, 300);
     }
 
     return () => {
@@ -33,24 +42,24 @@ const Sidebar = ({
   return (
     <aside
       ref={refAside}
-      className={classNames(
-        'flex flex-row w-full min-h-full border-r lg:block lg:relative lg:w-2/12 border-white/40 lg:p-1 absolute top-0 z-30 hidden'
-      )}
+      className="sidebar:relative sidebar:block sidebar:w-2/12 sidebar:p-1 absolute top-0 z-30 hidden w-full flex-row border-r border-white/40"
     >
-      <ul
+      <SimpleBar
         className={classNames(
-          'flex flex-col w-9/12 min-h-full p-3 pl-4 lg:w-full lg:bg-none lg:animate-none lg:translate-x-0 z-20 bg-gradient-to-b from-header to-primary',
+          'scrollbar sidebar:w-full z-20 h-screen min-h-full w-9/12 idebar:animate-none sidebar:translate-x-0 sidebar:bg-none from-header to-primary flex max-h-full flex-col bg-gradient-to-b py-3 pl-4 pr-5',
           show
             ? 'animate-slide-in'
             : '-translate-x-96 ease-in-out delay-200 transition-transform'
         )}
-        ref={ref}
+        scrollableNodeProps={{ ref }}
+        autoHide={false}
       >
-        {children}
-      </ul>
+        <ul>{children}</ul>
+      </SimpleBar>
+
       <div
         className={classNames(
-          'w-screen lg:hidden bg-black/60 lg:animate-none lg:translate-x-0 absolute h-screen z-10',
+          'w-screen sidebar:hidden bg-black/60 sidebar:animate-none sidebar:translate-x-0 absolute h-screen z-10',
           show
             ? 'animate-fade-in'
             : 'transition-opacity opacity-0 ease-in-out delay-200'
