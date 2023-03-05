@@ -1,47 +1,62 @@
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import SimpleBar from 'simplebar-react';
 
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 import Category from '@/components/common/Sidebar/Category';
+import { classNames } from '@/utils/functions';
+//import bgPhoneSVG from 'public/images/bgPhone.svg';
 
 import 'simplebar-react/dist/simplebar.min.css';
-import { SIDEBAR_BP } from '@/utils/constants';
 
-interface PropsInterface<T extends string> {
-  children: JSX.Element[] | JSX.Element;
+interface PropsWithSidebar<T extends string> {
   curCategory: T;
   categories: readonly T[];
   setCategory: (val: T) => void;
   icons?: Record<T, string>;
 }
+interface RequireSidebar<T extends string> extends PropsWithSidebar<T> {
+  children:
+    | ((height: string) => JSX.Element[] | JSX.Element)
+    | JSX.Element[]
+    | JSX.Element;
+  autoHideScroll?: boolean;
+  sidebar: true;
+}
+interface NoSidebar<T extends string> extends Partial<PropsWithSidebar<T>> {
+  children:
+    | ((height: string) => JSX.Element[] | JSX.Element)
+    | JSX.Element[]
+    | JSX.Element;
+  autoHideScroll?: boolean;
+  sidebar?: false;
+}
+
+type PropsType<T extends string> = RequireSidebar<T> | NoSidebar<T>;
 
 const MainLayout = <T extends string>({
   children,
+  sidebar,
+  autoHideScroll,
   curCategory,
   categories,
   setCategory,
   icons
-}: PropsInterface<T>) => {
+}: PropsType<T>) => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [divHeight, setDivHeight] = useState('calc(100vh - 150px)');
-  const [sidebarAside, setSidebarAside] = useState(false);
+  const [divHeight, setDivHeight] = useState('100%');
 
   const changeDivHeight = () => setDivHeight(`calc(${innerHeight}px - 150px)`);
-  const changeSidebarAside = () => setSidebarAside(innerWidth <= SIDEBAR_BP);
 
   useEffect(() => {
     window.addEventListener('resize', changeDivHeight);
-    window.addEventListener('resize', changeSidebarAside);
-    console.log(innerHeight);
     changeDivHeight();
-    changeSidebarAside();
 
     return () => {
       window.removeEventListener('resize', changeDivHeight);
-      window.removeEventListener('resize', changeSidebarAside);
     };
   }, []);
 
@@ -61,46 +76,47 @@ const MainLayout = <T extends string>({
     <>
       <Header
         showSidebar={() => setShowSidebar((prevState) => !prevState)}
-        sidebar
+        sidebar={sidebar}
       />
-      <div className="lg:bg-deskVector bg-phoneVector flex flex-col overflow-hidden bg-[#10121B]/40 bg-cover bg-center bg-no-repeat">
-        <div
-          className="w-full md:flex md:flex-row"
-          style={{ height: divHeight }}
-        >
-          <Sidebar
-            show={showSidebar}
-            hide={() => setShowSidebar(false)}
-            height={sidebarAside ? '100vh' : divHeight}
+      <Image
+        src={'/images/bgDesk.svg'}
+        alt="background-vector"
+        className="h-full bg-[#10121B]/40 object-cover"
+        priority
+        fill
+      />
+      <div className="flex grow flex-col overflow-hidden">
+        <div className="h-full w-full md:flex md:flex-row">
+          {sidebar && (
+            <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
+              {categories.map((c) => (
+                <Category
+                  key={c}
+                  chosen={c === curCategory}
+                  label={c}
+                  id={c}
+                  onClick={(c) => {
+                    setCategory(c);
+                    setShowSidebar(false);
+                  }}
+                  icon={icons && icons[c]}
+                />
+              ))}
+            </Sidebar>
+          )}
+          <main
+            className={classNames(
+              'flex w-full flex-row h-full',
+              sidebar ? 'sidebar:w-10/12 ' : ''
+            )}
           >
-            {categories.map((c) => (
-              <Category
-                key={c}
-                chosen={c === curCategory}
-                label={c}
-                id={c}
-                onClick={(c) => {
-                  setCategory(c);
-                  setShowSidebar(false);
-                }}
-                icon={icons && icons[c]}
-              />
-            ))}
-          </Sidebar>
-          <main className="sidebar:w-10/12 flex w-full flex-row">
-            <SimpleBar
-              className="scrollbar w-full"
-              style={{
-                height: divHeight
-              }}
-              autoHide={false}
-            >
-              {children}
+            <SimpleBar className="scrollbar w-full" autoHide={autoHideScroll}>
+              {typeof children === 'function' ? children(divHeight) : children}
             </SimpleBar>
           </main>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Ripples from 'react-ripples';
 
 import { classNames } from '@/utils/functions';
 

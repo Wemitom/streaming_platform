@@ -2,7 +2,8 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import logoSVG from '../../../../public/images/logo.svg';
+import hamburgerSVG from 'public/images/hamburger.svg';
+import logoSVG from 'public/images/logo.svg';
 
 const Header = ({
   showSidebar,
@@ -12,19 +13,13 @@ const Header = ({
   sidebar?: boolean;
 }) => {
   return (
-    <header className="bg-header h-area sticky top-0 z-10 flex w-full flex-row items-center gap-4 p-1 shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
+    <header className="bg-header min-h-area h-area sticky top-0 z-10 flex w-full flex-row items-center gap-4 p-1 shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
       {sidebar && (
         <div
           className="transition-background sidebar:hidden ml-3 cursor-pointer rounded-full p-2 duration-200 hover:bg-white/40"
           onClick={showSidebar}
         >
-          <Image
-            src="/images/hamburger.svg"
-            alt="hamburger_icon"
-            height={32}
-            width={32}
-            className="aspect-[16/13]"
-          />
+          <Image src={hamburgerSVG} alt="hamburger_icon" height={32} />
         </div>
       )}
       <Image

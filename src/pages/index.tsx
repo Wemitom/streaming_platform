@@ -19,6 +19,7 @@ export default function Home() {
       </Head>
 
       <MainLayout
+        sidebar
         curCategory={category}
         categories={categories}
         setCategory={setCategory}

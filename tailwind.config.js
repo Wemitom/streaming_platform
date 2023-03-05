@@ -16,7 +16,8 @@ module.exports = {
         sidebar: '1280px'
       },
       transitionProperty: {
-        background: 'background'
+        background: 'background',
+        border: 'border'
       },
       keyframes: {
         slideIn: {
@@ -40,6 +41,15 @@ module.exports = {
       },
       height: {
         area: '4.6875rem'
+      },
+      minHeight: {
+        area: '4.6875rem'
+      },
+      boxShadow: {
+        boxContainer: '7px 7px 12px rgba(0, 0, 0, 0.25)'
+      },
+      borderRadius: {
+        5: '5px'
       }
     }
   },
