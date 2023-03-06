@@ -14,15 +14,18 @@ const StreamPreview = ({
   title
 }: StreamPreview) => {
   return (
-    <div className="relative aspect-video w-full grow cursor-pointer overflow-hidden rounded-md bg-cover lg:w-4/12 lg:max-w-[30%]">
-      <div className="text-custom12 absolute z-10 flex h-[1.5625rem] w-full flex-wrap items-center gap-2 rounded-t-[5px_5px] bg-black/75 px-4">
+    <div
+      className="relative aspect-video w-full grow cursor-pointer overflow-hidden rounded-md bg-cover lg:w-4/12 lg:max-w-[30%]"
+      tabIndex={0}
+    >
+      <div className="text-custom12 absolute z-10 flex h-1/6 w-full flex-wrap items-center gap-2 rounded-t-[5px_5px] bg-black/75 px-4">
         <div
-          className="h-[1.375rem] w-[1.375rem] rounded-full border border-white bg-cover"
+          className="aspect-square h-4/6 rounded-full border border-white bg-cover"
           style={{ backgroundImage: `url(${avatar})` }}
         />
-        <p>@{username}</p>
-        <Image src={viewsSVG} alt="views" className="ml-auto" />
-        <p>{views}</p>
+        <p className="text-lg lg:text-sm">@{username}</p>
+        <Image src={viewsSVG} alt="views" className="ml-auto w-6 lg:w-5" />
+        <p className="text-lg lg:text-sm">{views}</p>
       </div>
       <Image
         priority
@@ -36,7 +39,7 @@ const StreamPreview = ({
         fill
       />
       {title && (
-        <div className="text-custom12 absolute bottom-0 z-10 flex w-full rounded-b-[5px_5px] bg-black/75 px-4 pt-2 pb-4">
+        <div className="text-custom12 absolute bottom-0 z-10 flex min-h-[16.66667%] w-full rounded-b-[5px_5px] bg-black/75 px-4 pt-2">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap">
             {title}
           </p>

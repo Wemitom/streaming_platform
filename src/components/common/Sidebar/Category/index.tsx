@@ -24,6 +24,7 @@ const Category = <T extends string>({
         chosen ? 'bg-footer/20' : 'cursor-pointer'
       )}
       onClick={chosen ? undefined : () => onClick(id)}
+      tabIndex={0}
     >
       {icon && <Image src={icon} alt={label} width={32} height={32} />}
       <p className="overflow-hidden text-ellipsis whitespace-nowrap">{label}</p>

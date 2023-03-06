@@ -41,14 +41,12 @@ const Sidebar = ({
   return (
     <aside
       ref={refAside}
-      className="sidebar:relative sidebar:w-2/12 sidebar:p-1 sidebar:flex absolute top-0 z-30 hidden w-full flex-row border-r border-white/40"
+      className="sidebar:relative sidebar:w-2/12 sidebar:p-1 sidebar:flex sidebar:z-0 absolute top-0 z-30 hidden w-full flex-row border-r border-white/40"
     >
       <SimpleBar
         className={classNames(
-          'scrollbar sidebar:w-full z-20 h-screen min-h-full w-9/12 idebar:animate-none sidebar:translate-x-0 sidebar:bg-none from-header to-primary flex max-h-full flex-col bg-gradient-to-b',
-          show
-            ? 'animate-slide-in'
-            : '-translate-x-96 ease-in-out delay-200 transition-transform'
+          'scrollbar sidebar:w-full sidebar:z-0 z-20 h-screen min-h-full w-9/12 sidebar:animate-none sidebar:translate-x-0 sidebar:bg-none from-header to-primary flex max-h-full flex-col bg-gradient-to-b',
+          show ? 'animate-slide-in-left' : 'animate-slide-out-left'
         )}
         scrollableNodeProps={{ ref }}
         autoHide={false}
@@ -59,9 +57,7 @@ const Sidebar = ({
       <div
         className={classNames(
           'w-screen sidebar:hidden bg-black/60 sidebar:animate-none sidebar:translate-x-0 absolute h-screen z-10',
-          show
-            ? 'animate-fade-in'
-            : 'transition-opacity opacity-0 ease-in-out delay-200'
+          show ? 'animate-fade-in' : 'animate-fade-out'
         )}
       />
     </aside>

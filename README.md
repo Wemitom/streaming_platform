@@ -20,3 +20,4 @@
 ### Scripts
 
 To build install all the dependencies, make the production build and start the server - **pnpm start**
+Serve prod build without rebuilding it - **pnpm restart**

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import hamburgerSVG from 'public/images/hamburger.svg';
 import logoSVG from 'public/images/logo.svg';
@@ -18,15 +19,19 @@ const Header = ({
         <div
           className="transition-background sidebar:hidden ml-3 cursor-pointer rounded-full p-2 duration-200 hover:bg-white/40"
           onClick={showSidebar}
+          tabIndex={0}
         >
           <Image src={hamburgerSVG} alt="hamburger_icon" height={32} />
         </div>
       )}
-      <Image
-        src={logoSVG}
-        alt="logo"
-        className="sidebar:ml-[3.75rem] top-2 h-[44px] w-[158px] lg:h-[58px] lg:w-[180px]"
-      />
+      <Link href="/">
+        <Image
+          src={logoSVG}
+          alt="logo"
+          className="sidebar:ml-[3.75rem] top-2 h-[44px] w-[158px] lg:h-[58px] lg:w-[180px]"
+          priority
+        />
+      </Link>
     </header>
   );
 };

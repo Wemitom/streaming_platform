@@ -12,43 +12,91 @@ import conditionsSVG from 'public/images/conditions.svg';
 import creditSVG from 'public/images/credit.svg';
 import infoSVG from 'public/images/info.svg';
 import logingSVG from 'public/images/login.svg';
+import hamburgerSVG from 'public/images/menu.svg';
 import passwordSVG from 'public/images/password.svg';
 
-const FooterBtn = ({
+interface ButtonInterface {
+  handleClick: () => void;
+}
+interface LinkInterface {
+  to: string;
+}
+interface PropsButton extends ButtonInterface, Partial<LinkInterface> {
+  type: 'button';
+  icon: StaticImageData;
+  text: string;
+  shortText?: string;
+  shorten?: boolean;
+  right?: boolean;
+}
+interface PropsLink extends LinkInterface, Partial<ButtonInterface> {
+  type: 'link';
+  icon: StaticImageData;
+  text: string;
+  shortText?: string;
+  shorten?: boolean;
+  right?: boolean;
+}
+type PropsFooterButton = PropsButton | PropsLink;
+
+const FooterButton = ({
+  type,
+  handleClick,
   to,
   icon,
   text,
   shorten,
   shortText,
   right
-}: {
-  to: string;
-  icon: StaticImageData;
-  text: string;
-  shortText?: string;
-  shorten?: boolean;
-  right?: boolean;
-}) => {
-  return (
-    <Link
-      href={to}
-      className={classNames(
-        'hover:bg-footer/20 transition-background flex flex-col lg:flex-row items-center gap-2 rounded-sm lg:px-6 lg:h-14 text-xs lg:text-lg px-2 h-full justify-center',
-        right ? 'lg:ml-auto' : ''
-      )}
-    >
-      <Image src={icon} alt="info" />
-      <p>{shorten && shortText ? shortText : text}</p>
-    </Link>
-  );
+}: PropsFooterButton) => {
+  if (type === 'link') {
+    return (
+      <Link
+        href={to}
+        className={classNames(
+          'hover:bg-footer/20 transition-background flex flex-col lg:flex-row items-center gap-2 rounded-sm lg:px-6 lg:h-14 text-xs lg:text-lg px-2 h-full justify-center',
+          right ? 'lg:ml-auto' : ''
+        )}
+      >
+        <Image src={icon} alt={text} />
+        <p>{shorten && shortText ? shortText : text}</p>
+      </Link>
+    );
+  } else {
+    return (
+      <button
+        onClick={handleClick}
+        className={classNames(
+          'hover:bg-footer/20 transition-background flex flex-col lg:flex-row items-center gap-2 rounded-sm lg:px-6 lg:h-14 text-xs lg:text-lg px-2 h-full justify-center',
+          right ? 'lg:ml-auto' : ''
+        )}
+      >
+        <Image src={icon} alt={text} />
+        <p>{shorten && shortText ? shortText : text}</p>
+      </button>
+    );
+  }
 };
 
-const Footer = () => {
-  const [windowWidth, setWindowWidth] = useState<number>();
+interface MenuInterface {
+  showMenu: boolean;
+  setShowMenu: (value: boolean) => void;
+}
+interface PropsFooterMenu extends MenuInterface {
+  menu: true;
+}
+interface PropsFooterNoMenu extends Partial<MenuInterface> {
+  menu?: false;
+}
+type PropsFooter = PropsFooterMenu | PropsFooterNoMenu;
 
+const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
+  const [windowWidth, setWindowWidth] = useState<number>();
   const changeWidth = () => setWindowWidth(innerWidth);
 
   const router = useRouter();
+
+  const [authTest] = useState(false);
 
   useEffect(() => {
     window.addEventListener('resize', changeWidth);
@@ -62,46 +110,77 @@ const Footer = () => {
   const getNavButtons = (): JSX.Element[] | JSX.Element => {
     const { pathname } = router;
 
-    switch (pathname) {
-      case '/':
+    switch (true) {
+      case pathname === '/' && !showMenu:
         return (
           <>
-            <FooterBtn
+            <FooterButton
+              type="link"
               to="info"
               icon={infoSVG}
               text="Информация"
               shortText="Инфо"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
-            <FooterBtn
+            <FooterButton
+              type="link"
               to="/"
               icon={conditionsSVG}
               text="Условия предоставления услуг"
               shortText="Условия"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
-            <FooterBtn
+            <FooterButton
+              type="link"
               to="/"
               icon={creditSVG}
               text="Пополнить счет"
               shortText="Счет"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
-            <FooterBtn to="/login" icon={logingSVG} text="Вход" right />
+            {!authTest ? (
+              <FooterButton
+                type="link"
+                to="/login"
+                icon={logingSVG}
+                text="Вход"
+                right
+              />
+            ) : (
+              <>
+                <p className="sidebar:block ml-auto hidden lg:text-lg">
+                  Баланс: 0&#8381;
+                </p>
+                <FooterButton
+                  type="button"
+                  handleClick={() => menu && setShowMenu(true)}
+                  icon={hamburgerSVG}
+                  text="Меню"
+                  right
+                />
+              </>
+            )}
           </>
         );
-      case '/login':
+      case pathname === '/login' && !showMenu:
         return (
           <>
-            <FooterBtn key={0} to="/" icon={arrowSVG} text="Назад" />
-            <FooterBtn
+            <FooterButton
+              type="button"
+              handleClick={() => router.back()}
+              icon={arrowSVG}
+              text="Назад"
+            />
+            <FooterButton
+              type="link"
               to="/"
               icon={passwordSVG}
               text="Забыл пароль"
               shortText="Пароль"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
-            <FooterBtn
+            <FooterButton
+              type="link"
               to="/sign-up"
               icon={accountSVG}
               text="Создать аккаунт"
@@ -111,15 +190,36 @@ const Footer = () => {
             />
           </>
         );
-      case '/sign-up':
+      case pathname === '/sign-up' && !showMenu:
         return (
           <>
-            <FooterBtn key={0} to="/" icon={arrowSVG} text="Назад" />
-            <FooterBtn to="/login" icon={accountSVG} text="Войти" right />
+            <FooterButton
+              type="button"
+              handleClick={() => router.back()}
+              to="/"
+              icon={arrowSVG}
+              text="Назад"
+            />
+            <FooterButton
+              type="link"
+              to="/login"
+              icon={accountSVG}
+              text="Войти"
+              right
+            />
           </>
         );
       default:
-        return <FooterBtn key={0} to="/" icon={arrowSVG} text="Назад" />;
+        return (
+          <FooterButton
+            type="button"
+            handleClick={() =>
+              !showMenu ? router.back() : menu && setShowMenu(false)
+            }
+            icon={arrowSVG}
+            text="Назад"
+          />
+        );
     }
   };
 

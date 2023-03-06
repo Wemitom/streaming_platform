@@ -7,8 +7,8 @@ import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 import Category from '@/components/common/Sidebar/Category';
+import Menu from '@/components/user/Menu';
 import { classNames } from '@/utils/functions';
-//import bgPhoneSVG from 'public/images/bgPhone.svg';
 
 import 'simplebar-react/dist/simplebar.min.css';
 
@@ -47,6 +47,7 @@ const MainLayout = <T extends string>({
   icons
 }: PropsType<T>) => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [divHeight, setDivHeight] = useState('100%');
 
   const changeDivHeight = () => setDivHeight(`calc(${innerHeight}px - 150px)`);
@@ -87,6 +88,7 @@ const MainLayout = <T extends string>({
       />
       <div className="flex grow flex-col overflow-hidden">
         <div className="h-full w-full md:flex md:flex-row">
+          <Menu height={divHeight} show={showMenu} />
           {sidebar && (
             <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
               {categories.map((c) => (
@@ -116,7 +118,7 @@ const MainLayout = <T extends string>({
           </main>
         </div>
       </div>
-      <Footer />
+      <Footer showMenu={showMenu} setShowMenu={setShowMenu} menu />
     </>
   );
 };

@@ -20,13 +20,29 @@ module.exports = {
         border: 'border'
       },
       keyframes: {
-        slideIn: {
-          from: { transform: 'translateX(-999px)' },
+        slideInLeft: {
+          from: { transform: 'translateX(-500px)' },
           to: { transform: 'translateX(0px)' }
+        },
+        slideOutLeft: {
+          from: { transform: 'translateX(0px)' },
+          to: { transform: 'translateX(-500px)' }
+        },
+        slideInRight: {
+          from: { transform: 'translateX(200%)' },
+          to: { transform: 'translateX(0px)' }
+        },
+        slideOutRight: {
+          from: { transform: 'translateX(0px)' },
+          to: { transform: 'translateX(200%)' }
         },
         fadeIn: {
           from: { opacity: 0 },
-          to: { transform: 100 }
+          to: { opacity: 100 }
+        },
+        fadeOut: {
+          from: { opacity: 100 },
+          to: { opacity: 0 }
         }
       },
       fontSize: {
@@ -34,10 +50,12 @@ module.exports = {
         custom12: '12px'
       },
       animation: {
-        'slide-in': 'slideIn 0.3s ease-in-out',
+        'slide-in-left': 'slideInLeft 0.3s ease-in-out',
+        'slide-out-left': 'slideOutLeft 0.3s ease-in-out forwards',
+        'slide-in-right': 'slideInRight 0.3s ease-in-out',
+        'slide-out-right': 'slideOutRight 0.3s ease-in-out forwards',
         'fade-in': 'fadeIn 0.1s linear',
-        'slide-out': 'slideIn 0.3s ease-in-out reverse',
-        'fade-out': 'fadeIn 0.2s linear reverse'
+        'fade-out': 'fadeOut 0.2s ease-in-out forwards'
       },
       height: {
         area: '4.6875rem'
