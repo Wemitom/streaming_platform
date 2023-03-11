@@ -20,6 +20,7 @@ export default function Home() {
 
       <MainLayout
         sidebar
+        scrollbarWrapper
         curCategory={category}
         categories={categories}
         setCategory={setCategory}

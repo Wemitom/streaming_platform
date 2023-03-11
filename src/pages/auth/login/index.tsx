@@ -16,8 +16,8 @@ const index = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout>
-        {(height: string) => (
+      <MainLayout scrollbarWrapper>
+        {({ height }) => (
           <div
             className="flex h-full w-full justify-center p-3 pt-12 sm:items-center sm:pt-3"
             style={{ minHeight: height }}

@@ -20,6 +20,7 @@ const Info = () => {
 
       <MainLayout
         sidebar
+        scrollbarWrapper
         curCategory={categoryInfo}
         categories={categoriesInfo}
         setCategory={setCategoryInfo}

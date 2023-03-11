@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 
+import { signOut, useSession } from 'next-auth/react';
 import SimpleBar from 'simplebar-react';
 
 import { classNames } from '@/utils/functions';
 
 const Menu = ({ height, show }: { height: string; show: boolean }) => {
+  const { data: session } = useSession();
+
   const refAside = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,16 +50,18 @@ const Menu = ({ height, show }: { height: string; show: boolean }) => {
       >
         <nav className="flex w-full flex-col items-center justify-center gap-3">
           <div className="relative mt-10 aspect-square w-32 overflow-hidden rounded-full border-2" />
-          <p>@User1</p>
-          <p>Уведомления</p>
-          <p>Создать подкаст</p>
-          <p>Пополнить счет</p>
-          <p>Вывод средств</p>
-          <p>Филиал</p>
-          <p>Настройки</p>
-          <p>Профиль</p>
-          <p>Поддержка</p>
-          <p>Выйти</p>
+          <p>@{session?.user.username}</p>
+          <p className="cursor-pointer">Уведомления</p>
+          <p className="cursor-pointer">Создать подкаст</p>
+          <p className="cursor-pointer">Пополнить счет</p>
+          <p className="cursor-pointer">Вывод средств</p>
+          <p className="cursor-pointer">Филиал</p>
+          <p className="cursor-pointer">Настройки</p>
+          <p className="cursor-pointer">Профиль</p>
+          <p className="cursor-pointer">Поддержка</p>
+          <p onClick={() => signOut()} className="cursor-pointer">
+            Выйти
+          </p>
         </nav>
       </SimpleBar>
     </aside>

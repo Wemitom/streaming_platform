@@ -22,9 +22,17 @@ export const categoriesInfo = [
   'G',
   'Very long text to see if it works right in the layout'
 ] as const;
+export const streamSidebar = [
+  'Назад',
+  'Подписаться',
+  'Новый челлендж',
+  'Отправить донат',
+  'Пополнить счет'
+] as const;
 
 export type Categories = (typeof categories)[number];
 export type CategoriesInfo = (typeof categoriesInfo)[number];
+export type StreamSidebar = (typeof streamSidebar)[number];
 
 export const infoContent: Record<CategoriesInfo, string> = {
   A: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
@@ -45,4 +53,11 @@ export const categoryIcon: Record<Categories, string> = {
   Мужчины: '/images/guys.svg',
   Треш: '/images/trash.svg',
   Юмор: '/images/humor.svg'
+};
+export const sidebarIcon: Record<StreamSidebar, string | undefined> = {
+  Назад: '/images/arrow.svg',
+  Подписаться: undefined,
+  'Новый челлендж': '/images/challenge.svg',
+  'Отправить донат': '/images/heart.svg',
+  'Пополнить счет': '/images/credit.svg'
 };

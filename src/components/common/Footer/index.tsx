@@ -3,13 +3,16 @@ import { useEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 import { LG_BP } from '@/utils/constants';
 import { classNames } from '@/utils/functions';
 import accountSVG from 'public/images/account.svg';
 import arrowSVG from 'public/images/arrow.svg';
+import challengeSVG from 'public/images/challenge.svg';
 import conditionsSVG from 'public/images/conditions.svg';
 import creditSVG from 'public/images/credit.svg';
+import heartSVG from 'public/images/heart.svg';
 import infoSVG from 'public/images/info.svg';
 import logingSVG from 'public/images/login.svg';
 import hamburgerSVG from 'public/images/menu.svg';
@@ -83,21 +86,31 @@ interface MenuInterface {
   setShowMenu: (value: boolean) => void;
 }
 interface PropsFooterMenu extends MenuInterface {
+  hidePhone?: boolean;
+  listener?: (id: string) => string | void;
   menu: true;
 }
 interface PropsFooterNoMenu extends Partial<MenuInterface> {
+  hidePhone?: boolean;
+  listener?: (id: string) => string | void;
   menu?: false;
 }
 type PropsFooter = PropsFooterMenu | PropsFooterNoMenu;
 
-const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
+const Footer = ({
+  menu,
+  showMenu,
+  setShowMenu,
+  hidePhone,
+  listener
+}: PropsFooter) => {
   const [windowWidth, setWindowWidth] = useState<number>();
+  const [streamFooter, setStreamFooter] = useState<'view' | 'set'>('view');
   const changeWidth = () => setWindowWidth(innerWidth);
 
   const router = useRouter();
 
-  const [authTest] = useState(false);
-
+  const { data: session } = useSession();
   useEffect(() => {
     window.addEventListener('resize', changeWidth);
     changeWidth();
@@ -109,6 +122,30 @@ const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
 
   const getNavButtons = (): JSX.Element[] | JSX.Element => {
     const { pathname } = router;
+    const authButtons = [
+      session ? (
+        <>
+          <p className="sidebar:block ml-auto hidden lg:text-lg">
+            Баланс: 0&#8381;
+          </p>
+          <FooterButton
+            type="button"
+            handleClick={() => menu && setShowMenu(true)}
+            icon={hamburgerSVG}
+            text="Меню"
+            right
+          />
+        </>
+      ) : (
+        <FooterButton
+          type="link"
+          to="/auth/login"
+          icon={logingSVG}
+          text="Вход"
+          right
+        />
+      )
+    ];
 
     switch (true) {
       case pathname === '/' && !showMenu:
@@ -138,31 +175,10 @@ const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
               shortText="Счет"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
-            {!authTest ? (
-              <FooterButton
-                type="link"
-                to="/login"
-                icon={logingSVG}
-                text="Вход"
-                right
-              />
-            ) : (
-              <>
-                <p className="sidebar:block ml-auto hidden lg:text-lg">
-                  Баланс: 0&#8381;
-                </p>
-                <FooterButton
-                  type="button"
-                  handleClick={() => menu && setShowMenu(true)}
-                  icon={hamburgerSVG}
-                  text="Меню"
-                  right
-                />
-              </>
-            )}
+            {...authButtons}
           </>
         );
-      case pathname === '/login' && !showMenu:
+      case pathname === '/auth/login' && !showMenu:
         return (
           <>
             <FooterButton
@@ -181,7 +197,7 @@ const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
             />
             <FooterButton
               type="link"
-              to="/sign-up"
+              to="/auth/sign-up"
               icon={accountSVG}
               text="Создать аккаунт"
               shortText="Аккаунт"
@@ -190,7 +206,7 @@ const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
             />
           </>
         );
-      case pathname === '/sign-up' && !showMenu:
+      case pathname === '/auth/sign-up' && !showMenu:
         return (
           <>
             <FooterButton
@@ -202,11 +218,46 @@ const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
             />
             <FooterButton
               type="link"
-              to="/login"
+              to="/auth/login"
               icon={accountSVG}
               text="Войти"
               right
             />
+          </>
+        );
+      case pathname === '/watch/[...username]' && !showMenu:
+        return (
+          <>
+            <FooterButton
+              type="button"
+              handleClick={() => router.back()}
+              icon={arrowSVG}
+              text="Назад"
+            />
+            <FooterButton
+              type="button"
+              handleClick={() => {
+                if (listener) {
+                  const res = listener('challenges');
+                  if (res === 'view' || res === 'set') setStreamFooter(res);
+                }
+              }}
+              icon={challengeSVG}
+              text={streamFooter === 'view' ? 'Новый челлендж' : 'Челленджи'}
+            />
+            <FooterButton
+              type="button"
+              handleClick={() => console.log('donate')}
+              icon={heartSVG}
+              text="Донат"
+            />
+            <FooterButton
+              type="button"
+              handleClick={() => console.log('pay')}
+              icon={creditSVG}
+              text="Пополнить"
+            />
+            {...authButtons}
           </>
         );
       default:
@@ -224,7 +275,12 @@ const Footer = ({ menu, showMenu, setShowMenu }: PropsFooter) => {
   };
 
   return (
-    <footer className="bg-footer/[0.08] min-h-area h-area sticky bottom-0 z-10 flex w-full">
+    <footer
+      className={classNames(
+        'h-area min-h-area bg-footer/[0.08] sticky bottom-0 z-10 flex w-full',
+        hidePhone ? 'hidden md:flex' : ''
+      )}
+    >
       <nav className="grid w-full auto-cols-fr grid-flow-col items-center shadow-[0_4px_5px_5px_rgba(0,0,0,0.25)] lg:flex lg:flex-row lg:gap-0 lg:px-6">
         {getNavButtons()}
       </nav>

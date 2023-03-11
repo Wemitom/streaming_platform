@@ -2,10 +2,11 @@ import React from 'react';
 
 import { classNames } from '@/utils/functions';
 
-type ButtonType = 'sm' | 'md';
+type ButtonType = 'sm' | 'md' | 'full';
 const buttonSize: Record<ButtonType, string> = {
   sm: 'sm:w-60 w-40',
-  md: 'sm:w-72 w-40'
+  md: 'sm:w-72 w-40',
+  full: 'w-full'
 };
 
 const Button = ({
@@ -16,7 +17,7 @@ const Button = ({
   disabled
 }: {
   text: string;
-  handleClick: () => void;
+  handleClick?: () => void;
   submit?: boolean;
   type?: ButtonType;
   disabled?: boolean;

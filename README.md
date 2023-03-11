@@ -3,7 +3,12 @@
 ### TO-DO LIST:
 
 1. Make a mobile/desktop layout (!!)
-2. Add auth functionality
+   - ~~Home page~~
+   - Stream page
+   - ~~Login/Signup~~
+   - ~~Info~~
+   - User related stuff
+2. ~~Add auth functionality~~
 3. ~~Figure out streaming and player stuff~~
 4. Optimize (!)
 5. Write tests (!)

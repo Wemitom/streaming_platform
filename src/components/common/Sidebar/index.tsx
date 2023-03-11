@@ -8,16 +8,20 @@ import useOutsideClickDetect from '@/utils/hooks/useOutsideClickDetect';
 
 const Sidebar = ({
   children,
+  title,
   show,
-  hide
+  hide,
+  custom
 }: {
   children: JSX.Element[] | JSX.Element;
+  title?: string;
   show: boolean;
   hide: () => void;
+  custom?: boolean;
 }) => {
   const refAside = useRef<null | HTMLDivElement>(null);
 
-  const ref = useRef<null | HTMLUListElement>(null);
+  const ref = useRef<null | HTMLDivElement>(null);
   useOutsideClickDetect(ref, hide);
 
   useEffect(() => {
@@ -41,18 +45,24 @@ const Sidebar = ({
   return (
     <aside
       ref={refAside}
-      className="sidebar:relative sidebar:w-2/12 sidebar:p-1 sidebar:flex sidebar:z-0 absolute top-0 z-30 hidden w-full flex-row border-r border-white/40"
+      className="sidebar:relative sidebar:w-80 sidebar:flex sidebar:z-0 absolute top-0 z-30 hidden w-full flex-row border-r border-white/40"
     >
-      <SimpleBar
+      <div
         className={classNames(
-          'scrollbar sidebar:w-full sidebar:z-0 z-20 h-screen min-h-full w-9/12 sidebar:animate-none sidebar:translate-x-0 sidebar:bg-none from-header to-primary flex max-h-full flex-col bg-gradient-to-b',
+          'scrollbar sidebar:w-full sidebar:z-0 z-20 h-screen w-9/12 sidebar:animate-none sidebar:translate-x-0 sidebar:bg-none from-header to-primary bg-gradient-to-b sidebar:h-full flex flex-col',
           show ? 'animate-slide-in-left' : 'animate-slide-out-left'
         )}
-        scrollableNodeProps={{ ref }}
-        autoHide={false}
+        ref={ref}
       >
-        <ul className="py-3 pl-4 pr-5">{children}</ul>
-      </SimpleBar>
+        {title && custom && (
+          <div className="w-full border-b border-white/40 p-6 text-center">
+            {title}
+          </div>
+        )}
+        <SimpleBar className="h-0 grow" autoHide={false}>
+          {custom ? children : <ul className="py-3 pl-4 pr-5">{children}</ul>}
+        </SimpleBar>
+      </div>
 
       <div
         className={classNames(

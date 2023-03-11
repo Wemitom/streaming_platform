@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { classNames } from '@/utils/functions';
 
 interface Props<T> {
-  chosen: boolean;
+  chosen?: boolean;
   label: string;
   id: T;
   onClick: (val: T) => void;

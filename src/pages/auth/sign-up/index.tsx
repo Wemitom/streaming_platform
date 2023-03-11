@@ -2,7 +2,6 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import LoginForm from '@/components/auth/login';
 import SignupForm from '@/components/auth/signup';
 import Box from '@/components/common/Box';
 import MainLayout from '@/layouts/MainLayout';
@@ -17,8 +16,8 @@ const index = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout autoHideScroll>
-        {(height: string) => (
+      <MainLayout autoHideScroll scrollbarWrapper>
+        {({ height }) => (
           <div
             className="flex h-full w-full justify-center p-3 pt-12 sm:items-center sm:pt-3"
             style={{ minHeight: height }}

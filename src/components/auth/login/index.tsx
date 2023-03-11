@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { signIn, useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 
 interface LoginData {
-  login: string;
+  username: string;
   password: string;
 }
 
@@ -16,9 +17,24 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<LoginData>();
-  const onSubmit = (data: LoginData) => console.log(data);
-
+  const session = useSession();
   const router = useRouter();
+
+  if (session.data) router.push('/');
+
+  const onSubmit = async (data: LoginData) => {
+    try {
+      const result = await signIn('login', {
+        redirect: false,
+        username: data.username,
+        password: data.password
+      });
+
+      router.push('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <form
@@ -32,7 +48,7 @@ const LoginForm = () => {
             type: 'text',
             placeholder: 'Логин',
             autoComplete: 'username',
-            ...register('login', { required: true })
+            ...register('username', { required: true })
           }}
         />
         <Input
@@ -45,7 +61,13 @@ const LoginForm = () => {
         />
       </div>
       <div className="flex flex-col gap-3">
-        <Button text="Войти" handleClick={() => console.log('wow')} submit />
+        <Button
+          text="Войти"
+          handleClick={() => {
+            return;
+          }}
+          submit
+        />
         <Button text="Регистрация" handleClick={() => router.push('sign-up')} />
       </div>
     </form>

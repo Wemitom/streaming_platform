@@ -10,7 +10,8 @@ module.exports = {
       colors: {
         primary: '#481372',
         header: '#48466D',
-        footer: '#D9D9D9'
+        footer: '#D9D9D9',
+        chat: '#FF852D'
       },
       screens: {
         sidebar: '1280px'
@@ -21,12 +22,12 @@ module.exports = {
       },
       keyframes: {
         slideInLeft: {
-          from: { transform: 'translateX(-500px)' },
+          from: { transform: 'translateX(-200%)' },
           to: { transform: 'translateX(0px)' }
         },
         slideOutLeft: {
           from: { transform: 'translateX(0px)' },
-          to: { transform: 'translateX(-500px)' }
+          to: { transform: 'translateX(-200%)' }
         },
         slideInRight: {
           from: { transform: 'translateX(200%)' },

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import viewsSVG from 'public/images/views.svg';
 
@@ -14,8 +15,9 @@ const StreamPreview = ({
   title
 }: StreamPreview) => {
   return (
-    <div
-      className="relative aspect-video w-full grow cursor-pointer overflow-hidden rounded-md bg-cover lg:w-4/12 lg:max-w-[30%]"
+    <Link
+      href={`/watch/${username}`}
+      className="relative aspect-video w-full grow overflow-hidden rounded-md bg-cover lg:w-4/12 lg:max-w-[30%]"
       tabIndex={0}
     >
       <div className="text-custom12 absolute z-10 flex h-1/6 w-full flex-wrap items-center gap-2 rounded-t-[5px_5px] bg-black/75 px-4">
@@ -45,7 +47,7 @@ const StreamPreview = ({
           </p>
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 
