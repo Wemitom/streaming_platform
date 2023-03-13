@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 import { classNames } from '@/utils/functions';
 import hamburgerSVG from 'public/images/hamburger.svg';
-import logoSVG from 'public/images/logo.svg';
 
 const Header = ({
   showSidebar,
@@ -34,9 +33,15 @@ const Header = ({
       )}
       <Link href="/">
         <Image
-          src={logoSVG}
+          src="/images/logo.svg"
           alt="logo"
-          className="sidebar:ml-[3.75rem] top-2 h-[44px] w-[158px] lg:h-[58px] lg:w-[180px]"
+          sizes="(max-width: 1024px) 180px, 158px"
+          width={180}
+          height={58}
+          className={classNames(
+            'top-2 h-[44px] w-[158px] lg:h-[58px] lg:w-[180px]',
+            sidebar ? 'sidebar:ml-[3.75rem]' : 'sm:ml-[3.75rem] ml-6'
+          )}
           priority
         />
       </Link>

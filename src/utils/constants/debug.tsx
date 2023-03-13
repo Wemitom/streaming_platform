@@ -72,7 +72,7 @@ export const streams: StreamPreview[] = [
 export const challenges: JSX.Element[] = [
   <div key={1} className="flex h-full flex-col gap-3 p-4">
     <Box type="full">
-      <div className="h-ful flex flex-col gap-3">
+      <div className="h-ful flex flex-col gap-3 p-6">
         <h2 className="text-2xl">Lorem ipsum</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -87,7 +87,7 @@ export const challenges: JSX.Element[] = [
       </div>
     </Box>
     <Box type="full">
-      <div className="h-ful flex flex-col gap-3">
+      <div className="h-ful flex flex-col gap-3 p-6">
         <h2 className="text-2xl">Lorem ipsum</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -102,7 +102,7 @@ export const challenges: JSX.Element[] = [
       </div>
     </Box>
     <Box type="full">
-      <div className="h-ful flex flex-col gap-3">
+      <div className="h-ful flex flex-col gap-3 p-6">
         <h2 className="text-2xl">Lorem ipsum</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -117,7 +117,7 @@ export const challenges: JSX.Element[] = [
       </div>
     </Box>
     <Box type="full">
-      <div className="h-ful flex flex-col gap-3">
+      <div className="h-ful flex flex-col gap-3 p-6">
         <h2 className="text-2xl">Lorem ipsum</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

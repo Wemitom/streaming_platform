@@ -27,8 +27,10 @@ const Info = () => {
       >
         <div className="p-3">
           <Box type="full">
-            <h3 className="mb-6 text-center text-2xl">{categoryInfo}</h3>
-            <p>{infoContent[categoryInfo]}</p>
+            <div className="p-6">
+              <h3 className="mb-6 text-center text-2xl">{categoryInfo}</h3>
+              <p>{infoContent[categoryInfo]}</p>
+            </div>
           </Box>
         </div>
       </MainLayout>

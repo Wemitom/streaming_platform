@@ -1,14 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
+import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import SimpleBar from 'simplebar-react';
 
 import { classNames } from '@/utils/functions';
 
-const Menu = ({ height, show }: { height: string; show: boolean }) => {
+const Menu = ({
+  height,
+  show,
+  hide
+}: {
+  height: string;
+  show: boolean;
+  hide: () => void;
+}) => {
   const { data: session } = useSession();
 
   const refAside = useRef<null | HTMLDivElement>(null);
+
+  const close = useCallback(
+    ({ key }: KeyboardEvent) => key === 'Escape' && hide(),
+    [hide]
+  );
+
+  useEffect(() => {
+    if (show) document.addEventListener('keydown', close);
+    else document.removeEventListener('keydown', close);
+
+    return () => {
+      document.removeEventListener('keydown', close);
+    };
+  }, [show, close]);
 
   useEffect(() => {
     let tm: NodeJS.Timeout;
@@ -57,7 +80,7 @@ const Menu = ({ height, show }: { height: string; show: boolean }) => {
           <p className="cursor-pointer">Вывод средств</p>
           <p className="cursor-pointer">Филиал</p>
           <p className="cursor-pointer">Настройки</p>
-          <p className="cursor-pointer">Профиль</p>
+          <Link href="/profile">Профиль</Link>
           <p className="cursor-pointer">Поддержка</p>
           <p onClick={() => signOut()} className="cursor-pointer">
             Выйти

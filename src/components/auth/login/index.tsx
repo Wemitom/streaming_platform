@@ -17,10 +17,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<LoginData>();
-  const session = useSession();
   const router = useRouter();
-
-  if (session.data) router.push('/');
 
   const onSubmit = async (data: LoginData) => {
     try {
@@ -30,7 +27,7 @@ const LoginForm = () => {
         password: data.password
       });
 
-      router.push('/');
+      result?.ok && router.push('/');
     } catch (error) {
       console.error(error);
     }
@@ -39,7 +36,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-3 flex flex-col items-center gap-10"
+      className="mt-3 flex flex-col items-center gap-10 p-6"
     >
       <Image src="/images/login.svg" alt="login" width={48} height={48} />
       <div className="flex w-full flex-col gap-5">

@@ -1,22 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 import { LG_BP } from '@/utils/constants';
 import { classNames } from '@/utils/functions';
-import accountSVG from 'public/images/account.svg';
-import arrowSVG from 'public/images/arrow.svg';
-import challengeSVG from 'public/images/challenge.svg';
-import conditionsSVG from 'public/images/conditions.svg';
-import creditSVG from 'public/images/credit.svg';
-import heartSVG from 'public/images/heart.svg';
-import infoSVG from 'public/images/info.svg';
-import logingSVG from 'public/images/login.svg';
-import hamburgerSVG from 'public/images/menu.svg';
-import passwordSVG from 'public/images/password.svg';
 
 interface ButtonInterface {
   handleClick: () => void;
@@ -25,16 +15,16 @@ interface LinkInterface {
   to: string;
 }
 interface PropsButton extends ButtonInterface, Partial<LinkInterface> {
+  id: string;
   type: 'button';
-  icon: StaticImageData;
   text: string;
   shortText?: string;
   shorten?: boolean;
   right?: boolean;
 }
 interface PropsLink extends LinkInterface, Partial<ButtonInterface> {
+  id: string;
   type: 'link';
-  icon: StaticImageData;
   text: string;
   shortText?: string;
   shorten?: boolean;
@@ -43,10 +33,10 @@ interface PropsLink extends LinkInterface, Partial<ButtonInterface> {
 type PropsFooterButton = PropsButton | PropsLink;
 
 const FooterButton = ({
+  id,
   type,
   handleClick,
   to,
-  icon,
   text,
   shorten,
   shortText,
@@ -61,8 +51,15 @@ const FooterButton = ({
           right ? 'lg:ml-auto' : ''
         )}
       >
-        <Image src={icon} alt={text} />
-        <p>{shorten && shortText ? shortText : text}</p>
+        <Image
+          priority
+          src={`/images/${id}.svg`}
+          alt={text}
+          width={32}
+          height={32}
+        />
+        <p className={classNames(shorten ? 'hidden lg:block' : '')}>{text}</p>
+        <p className="block lg:hidden">{shorten && shortText}</p>
       </Link>
     );
   } else {
@@ -74,7 +71,13 @@ const FooterButton = ({
           right ? 'lg:ml-auto' : ''
         )}
       >
-        <Image src={icon} alt={text} />
+        <Image
+          priority
+          src={`/images/${id}.svg`}
+          alt={text}
+          width={32}
+          height={32}
+        />
         <p>{shorten && shortText ? shortText : text}</p>
       </button>
     );
@@ -110,7 +113,7 @@ const Footer = ({
 
   const router = useRouter();
 
-  const { data: session } = useSession();
+  const { status } = useSession();
   useEffect(() => {
     window.addEventListener('resize', changeWidth);
     changeWidth();
@@ -123,28 +126,28 @@ const Footer = ({
   const getNavButtons = (): JSX.Element[] | JSX.Element => {
     const { pathname } = router;
     const authButtons = [
-      session ? (
+      status === 'authenticated' ? (
         <>
           <p className="sidebar:block ml-auto hidden lg:text-lg">
             Баланс: 0&#8381;
           </p>
           <FooterButton
+            id="hamburger"
             type="button"
             handleClick={() => menu && setShowMenu(true)}
-            icon={hamburgerSVG}
             text="Меню"
             right
           />
         </>
-      ) : (
+      ) : status === 'unauthenticated' ? (
         <FooterButton
+          id="login"
           type="link"
           to="/auth/login"
-          icon={logingSVG}
           text="Вход"
           right
         />
-      )
+      ) : null
     ];
 
     switch (true) {
@@ -152,25 +155,25 @@ const Footer = ({
         return (
           <>
             <FooterButton
+              id="info"
               type="link"
               to="info"
-              icon={infoSVG}
               text="Информация"
               shortText="Инфо"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             <FooterButton
+              id="conditions"
               type="link"
               to="/"
-              icon={conditionsSVG}
               text="Условия предоставления услуг"
               shortText="Условия"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             <FooterButton
+              id="credit"
               type="link"
-              to="/"
-              icon={creditSVG}
+              to="/add-money"
               text="Пополнить счет"
               shortText="Счет"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
@@ -182,23 +185,23 @@ const Footer = ({
         return (
           <>
             <FooterButton
+              id="arrow"
               type="button"
               handleClick={() => router.back()}
-              icon={arrowSVG}
               text="Назад"
             />
             <FooterButton
+              id="password"
               type="link"
               to="/"
-              icon={passwordSVG}
               text="Забыл пароль"
               shortText="Пароль"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             <FooterButton
+              id="account"
               type="link"
               to="/auth/sign-up"
-              icon={accountSVG}
               text="Создать аккаунт"
               shortText="Аккаунт"
               shorten={windowWidth ? windowWidth <= LG_BP : true}
@@ -210,16 +213,16 @@ const Footer = ({
         return (
           <>
             <FooterButton
+              id="arrow"
               type="button"
               handleClick={() => router.back()}
               to="/"
-              icon={arrowSVG}
               text="Назад"
             />
             <FooterButton
+              id="account"
               type="link"
               to="/auth/login"
-              icon={accountSVG}
               text="Войти"
               right
             />
@@ -229,12 +232,13 @@ const Footer = ({
         return (
           <>
             <FooterButton
+              id="arrow"
               type="button"
               handleClick={() => router.back()}
-              icon={arrowSVG}
               text="Назад"
             />
             <FooterButton
+              id="challenge"
               type="button"
               handleClick={() => {
                 if (listener) {
@@ -242,32 +246,50 @@ const Footer = ({
                   if (res === 'view' || res === 'set') setStreamFooter(res);
                 }
               }}
-              icon={challengeSVG}
               text={streamFooter === 'view' ? 'Новый челлендж' : 'Челленджи'}
             />
             <FooterButton
+              id="heart"
               type="button"
               handleClick={() => console.log('donate')}
-              icon={heartSVG}
               text="Донат"
             />
             <FooterButton
-              type="button"
-              handleClick={() => console.log('pay')}
-              icon={creditSVG}
+              id="credit"
+              type="link"
+              to="/add-money"
               text="Пополнить"
             />
             {...authButtons}
           </>
         );
+      case pathname === '/profile':
+        return (
+          <>
+            <FooterButton
+              id="arrow"
+              type="button"
+              handleClick={() => router.back()}
+              to="/"
+              text="Назад"
+            />
+            <FooterButton
+              id="accept"
+              type="button"
+              handleClick={() => console.log('save')}
+              text="Сохранить"
+              right
+            />
+          </>
+        );
       default:
         return (
           <FooterButton
+            id="arrow"
             type="button"
             handleClick={() =>
               !showMenu ? router.back() : menu && setShowMenu(false)
             }
-            icon={arrowSVG}
             text="Назад"
           />
         );

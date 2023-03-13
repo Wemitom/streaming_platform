@@ -19,10 +19,6 @@ interface PropsWithSidebar<T extends string> {
   setCategory: (val: T) => void;
   icons?: Record<T, string>;
 }
-interface PropsWithCustomSidebar {
-  sidebarItems: JSX.Element[] | JSX.Element;
-  sidebarTitle?: string;
-}
 interface CommonProps {
   children:
     | (({
@@ -41,43 +37,24 @@ interface CommonProps {
   autoHideScroll?: boolean;
   hidePhone?: boolean;
   scrollbarWrapper?: boolean;
-  footerListener?: (id: string) => string | void;
 }
 interface RequireSidebar<T extends string>
   extends PropsWithSidebar<T>,
-    Partial<PropsWithCustomSidebar>,
     CommonProps {
   sidebar: true;
-  customSidebar: false;
-}
-interface RequireCustomSidebar<T extends string>
-  extends PropsWithCustomSidebar,
-    Partial<PropsWithSidebar<T>>,
-    CommonProps {
-  sidebar: true;
-  customSidebar: true;
 }
 interface NoSidebar<T extends string>
   extends Partial<PropsWithSidebar<T>>,
-    Partial<PropsWithCustomSidebar>,
     CommonProps {
   sidebar?: false;
-  customSidebar?: false;
 }
 
-type PropsType<T extends string> =
-  | RequireSidebar<T>
-  | RequireCustomSidebar<T>
-  | NoSidebar<T>;
+type PropsType<T extends string> = RequireSidebar<T> | NoSidebar<T>;
 
 const MainLayout = <T extends string>({
   children,
   sidebar,
-  customSidebar,
-  sidebarTitle,
-  sidebarItems,
   autoHideScroll,
-  footerListener,
   scrollbarWrapper,
   hidePhone,
   curCategory,
@@ -132,29 +109,28 @@ const MainLayout = <T extends string>({
       />
       <div className="flex grow flex-col overflow-hidden">
         <div className="h-full w-full md:flex md:flex-row">
-          {session && <Menu height={divHeight} show={showMenu} />}
+          {session && (
+            <Menu
+              height={divHeight}
+              show={showMenu}
+              hide={() => setShowMenu(false)}
+            />
+          )}
           {sidebar && (
-            <Sidebar
-              show={showSidebar}
-              hide={() => setShowSidebar(false)}
-              custom={customSidebar}
-              title={sidebarTitle}
-            >
-              {!customSidebar
-                ? categories.map((c) => (
-                    <Category
-                      key={c}
-                      chosen={c === curCategory}
-                      label={c}
-                      id={c}
-                      onClick={(c) => {
-                        setCategory(c);
-                        setShowSidebar(false);
-                      }}
-                      icon={icons && icons[c]}
-                    />
-                  ))
-                : sidebarItems}
+            <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
+              {categories.map((c) => (
+                <Category
+                  key={c}
+                  chosen={c === curCategory}
+                  label={c}
+                  id={c}
+                  onClick={(c) => {
+                    setCategory(c);
+                    setShowSidebar(false);
+                  }}
+                  icon={icons && icons[c]}
+                />
+              ))}
             </Sidebar>
           )}
           <main
@@ -194,7 +170,6 @@ const MainLayout = <T extends string>({
         showMenu={showMenu}
         setShowMenu={setShowMenu}
         hidePhone={hidePhone}
-        listener={footerListener}
         menu
       />
     </>

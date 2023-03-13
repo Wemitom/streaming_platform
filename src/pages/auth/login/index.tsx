@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 import LoginForm from '@/components/auth/login';
 import Box from '@/components/common/Box';
 import MainLayout from '@/layouts/MainLayout';
 
-const index = () => {
+const Login = () => {
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') router.push('/');
+  }, [router, status]);
+
   return (
     <>
       <Head>
@@ -32,4 +41,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Login;

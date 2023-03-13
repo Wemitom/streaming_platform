@@ -45,7 +45,7 @@ const SignupForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-3 flex flex-col items-center gap-10"
+      className="mt-3 flex flex-col items-center gap-10 p-6"
     >
       <Image src="/images/signup.svg" alt="signup" width={64} height={64} />
       <div className="flex w-full flex-col gap-5">

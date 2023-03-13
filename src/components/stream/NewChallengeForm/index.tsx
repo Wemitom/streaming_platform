@@ -16,11 +16,15 @@ const NewChallengeForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<NewChallengeInterface>();
+  const onSubmit = (data: NewChallengeInterface) => console.log(data);
 
   return (
     <div className="p-4">
       <Box type="full">
-        <form className="flex flex-col gap-3">
+        <form
+          className="flex flex-col gap-3 p-6"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div>
             <p className="text-chat">Имя:</p>
             <Input

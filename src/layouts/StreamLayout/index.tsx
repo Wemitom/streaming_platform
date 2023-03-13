@@ -89,7 +89,13 @@ const StreamLayout = ({
           >
             <Image src={hamburgerSVG} alt="hamburger" />
           </button>
-          {session && <Menu height={divHeight} show={showMenu} />}
+          {session && (
+            <Menu
+              height={divHeight}
+              show={showMenu}
+              hide={() => setShowMenu(false)}
+            />
+          )}
           <Sidebar
             show={showSidebar}
             hide={() => setShowSidebar(false)}

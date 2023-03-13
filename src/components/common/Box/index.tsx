@@ -14,7 +14,7 @@ const Box = ({
 }) => {
   return (
     <div
-      className={`${boxWidth[type]} shadow-boxContainer bg-footer/[0.14] rounded-5 h-fit p-6`}
+      className={`${boxWidth[type]} shadow-boxContainer bg-footer/[0.14] rounded-5 h-fit`}
     >
       {children}
     </div>
