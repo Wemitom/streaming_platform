@@ -6,15 +6,7 @@ import SimpleBar from 'simplebar-react';
 
 import { classNames } from '@/utils/functions';
 
-const Menu = ({
-  height,
-  show,
-  hide
-}: {
-  height: string;
-  show: boolean;
-  hide: () => void;
-}) => {
+const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
   const { data: session } = useSession();
 
   const refAside = useRef<null | HTMLDivElement>(null);
@@ -59,16 +51,14 @@ const Menu = ({
 
   return (
     <aside
-      className="absolute z-10 hidden w-full flex-col items-center gap-3 overflow-hidden"
+      className="absolute z-10 hidden h-full w-full flex-col items-center gap-3 overflow-hidden"
       ref={refAside}
-      style={{ height }}
     >
       <SimpleBar
         className={classNames(
-          'w-full p-3 bg-primary/50 backdrop-blur-lg',
+          'w-full p-3 bg-primary/50 backdrop-blur-lg h-full',
           show ? 'animate-slide-in-right' : 'animate-slide-out-right'
         )}
-        style={{ height }}
         autoHide={false}
       >
         <nav className="flex w-full flex-col items-center justify-center gap-3">

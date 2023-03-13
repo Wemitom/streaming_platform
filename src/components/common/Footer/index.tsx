@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
-import { LG_BP } from '@/utils/constants';
 import { classNames } from '@/utils/functions';
 
 interface ButtonInterface {
@@ -19,7 +18,6 @@ interface PropsButton extends ButtonInterface, Partial<LinkInterface> {
   type: 'button';
   text: string;
   shortText?: string;
-  shorten?: boolean;
   right?: boolean;
 }
 interface PropsLink extends LinkInterface, Partial<ButtonInterface> {
@@ -27,7 +25,6 @@ interface PropsLink extends LinkInterface, Partial<ButtonInterface> {
   type: 'link';
   text: string;
   shortText?: string;
-  shorten?: boolean;
   right?: boolean;
 }
 type PropsFooterButton = PropsButton | PropsLink;
@@ -38,7 +35,6 @@ const FooterButton = ({
   handleClick,
   to,
   text,
-  shorten,
   shortText,
   right
 }: PropsFooterButton) => {
@@ -58,8 +54,8 @@ const FooterButton = ({
           width={32}
           height={32}
         />
-        <p className={classNames(shorten ? 'hidden lg:block' : '')}>{text}</p>
-        <p className="block lg:hidden">{shorten && shortText}</p>
+        <p className={classNames(shortText ? 'hidden lg:block' : '')}>{text}</p>
+        <p className="block lg:hidden">{shortText}</p>
       </Link>
     );
   } else {
@@ -77,8 +73,10 @@ const FooterButton = ({
           alt={text}
           width={32}
           height={32}
+          className="h-[32px] w-[32px]"
         />
-        <p>{shorten && shortText ? shortText : text}</p>
+        <p className={classNames(shortText ? 'hidden lg:block' : '')}>{text}</p>
+        {shortText && <p className="block lg:hidden">{shortText}</p>}
       </button>
     );
   }
@@ -107,21 +105,11 @@ const Footer = ({
   hidePhone,
   listener
 }: PropsFooter) => {
-  const [windowWidth, setWindowWidth] = useState<number>();
   const [streamFooter, setStreamFooter] = useState<'view' | 'set'>('view');
-  const changeWidth = () => setWindowWidth(innerWidth);
 
   const router = useRouter();
 
   const { status } = useSession();
-  useEffect(() => {
-    window.addEventListener('resize', changeWidth);
-    changeWidth();
-
-    return () => {
-      window.removeEventListener('resize', changeWidth);
-    };
-  }, []);
 
   const getNavButtons = (): JSX.Element[] | JSX.Element => {
     const { pathname } = router;
@@ -160,7 +148,6 @@ const Footer = ({
               to="info"
               text="Информация"
               shortText="Инфо"
-              shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             <FooterButton
               id="conditions"
@@ -168,7 +155,6 @@ const Footer = ({
               to="/"
               text="Условия предоставления услуг"
               shortText="Условия"
-              shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             <FooterButton
               id="credit"
@@ -176,7 +162,6 @@ const Footer = ({
               to="/add-money"
               text="Пополнить счет"
               shortText="Счет"
-              shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             {...authButtons}
           </>
@@ -196,7 +181,6 @@ const Footer = ({
               to="/"
               text="Забыл пароль"
               shortText="Пароль"
-              shorten={windowWidth ? windowWidth <= LG_BP : true}
             />
             <FooterButton
               id="account"
@@ -204,7 +188,6 @@ const Footer = ({
               to="/auth/sign-up"
               text="Создать аккаунт"
               shortText="Аккаунт"
-              shorten={windowWidth ? windowWidth <= LG_BP : true}
               right
             />
           </>

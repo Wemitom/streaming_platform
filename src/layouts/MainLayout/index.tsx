@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
 import SimpleBar from 'simplebar-react';
@@ -20,23 +20,10 @@ interface PropsWithSidebar<T extends string> {
   icons?: Record<T, string>;
 }
 interface CommonProps {
-  children:
-    | (({
-        height,
-        setShowSidebar,
-        mdBP,
-        hasWindow
-      }: {
-        height: string;
-        setShowSidebar: (value: boolean) => void;
-        mdBP: boolean;
-        hasWindow: boolean;
-      }) => JSX.Element[] | JSX.Element)
-    | JSX.Element[]
-    | JSX.Element;
+  children: JSX.Element[] | JSX.Element;
   autoHideScroll?: boolean;
-  hidePhone?: boolean;
   scrollbarWrapper?: boolean;
+  centerContent?: boolean;
 }
 interface RequireSidebar<T extends string>
   extends PropsWithSidebar<T>,
@@ -56,7 +43,7 @@ const MainLayout = <T extends string>({
   sidebar,
   autoHideScroll,
   scrollbarWrapper,
-  hidePhone,
+  centerContent,
   curCategory,
   categories,
   setCategory,
@@ -64,29 +51,7 @@ const MainLayout = <T extends string>({
 }: PropsType<T>) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [divHeight, setDivHeight] = useState('100%');
-  const [mdBP, setMdBP] = useState(false);
-  const [hasWindow, setHasWindow] = useState(false);
   const { data: session } = useSession();
-
-  const changeDivHeight = () => setDivHeight(`calc(${innerHeight}px - 150px)`);
-  const changeLayout = () => setMdBP(innerWidth <= MD_BP);
-
-  useEffect(() => {
-    window.addEventListener('resize', changeDivHeight);
-    window.addEventListener('resize', changeLayout);
-    changeDivHeight();
-    changeLayout();
-
-    if (typeof window !== 'undefined') {
-      setHasWindow(true);
-    }
-
-    return () => {
-      window.removeEventListener('resize', changeDivHeight);
-      window.addEventListener('resize', changeLayout);
-    };
-  }, []);
 
   useEffect(() => {
     if (showSidebar) {
@@ -105,17 +70,10 @@ const MainLayout = <T extends string>({
       <Header
         showSidebar={() => setShowSidebar((prevState) => !prevState)}
         sidebar={sidebar}
-        hidePhone={hidePhone}
       />
       <div className="flex grow flex-col overflow-hidden">
-        <div className="h-full w-full md:flex md:flex-row">
-          {session && (
-            <Menu
-              height={divHeight}
-              show={showMenu}
-              hide={() => setShowMenu(false)}
-            />
-          )}
+        <div className="relative h-full w-full md:flex md:flex-row">
+          {session && <Menu show={showMenu} hide={() => setShowMenu(false)} />}
           {sidebar && (
             <Sidebar show={showSidebar} hide={() => setShowSidebar(false)}>
               {categories.map((c) => (
@@ -141,37 +99,21 @@ const MainLayout = <T extends string>({
           >
             {scrollbarWrapper ? (
               <SimpleBar
-                className="scrollbar w-0 grow"
+                className={classNames(
+                  'scrollbar max-h-full w-0 grow',
+                  centerContent ? 'm-auto' : ''
+                )}
                 autoHide={autoHideScroll}
               >
-                {typeof children === 'function'
-                  ? children({
-                      height: divHeight,
-                      setShowSidebar: (value: boolean) => setShowSidebar(value),
-                      mdBP,
-                      hasWindow
-                    })
-                  : children}
+                {children}
               </SimpleBar>
-            ) : typeof children === 'function' ? (
-              children({
-                height: divHeight,
-                setShowSidebar: (value: boolean) => setShowSidebar(value),
-                mdBP,
-                hasWindow
-              })
             ) : (
               children
             )}
           </main>
         </div>
       </div>
-      <Footer
-        showMenu={showMenu}
-        setShowMenu={setShowMenu}
-        hidePhone={hidePhone}
-        menu
-      />
+      <Footer showMenu={showMenu} setShowMenu={setShowMenu} menu />
     </>
   );
 };

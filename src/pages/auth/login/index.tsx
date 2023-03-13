@@ -26,16 +26,11 @@ const Login = () => {
       </Head>
 
       <MainLayout scrollbarWrapper>
-        {({ height }) => (
-          <div
-            className="flex h-full w-full justify-center p-3 pt-12 sm:items-center sm:pt-3"
-            style={{ minHeight: height }}
-          >
-            <Box type="normal">
-              <LoginForm />
-            </Box>
-          </div>
-        )}
+        <div className="flex h-full w-full justify-center p-3 pt-12 sm:items-center sm:pt-3">
+          <Box type="normal">
+            <LoginForm />
+          </Box>
+        </div>
       </MainLayout>
     </>
   );
