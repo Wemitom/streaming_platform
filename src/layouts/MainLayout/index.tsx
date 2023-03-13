@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
 import SimpleBar from 'simplebar-react';
@@ -8,7 +8,6 @@ import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 import Category from '@/components/common/Sidebar/Category';
 import Menu from '@/components/user/Menu';
-import { MD_BP } from '@/utils/constants';
 import { classNames } from '@/utils/functions';
 
 import 'simplebar-react/dist/simplebar.min.css';
@@ -38,6 +37,20 @@ interface NoSidebar<T extends string>
 
 type PropsType<T extends string> = RequireSidebar<T> | NoSidebar<T>;
 
+/*
+ * Отображает основной лэйаут с хедером и футером
+ * Пропсы:
+ * sidebar - нужен ли сайдбар
+ * autoHideScroll - нужно ли прятать скроллбар
+ * scrollbarWrapper - нужен ли враппер с скроллбаром
+ * centerConten - нужно ли расположить контент по центру
+ * curCategory - текущая категория для сайдбара (должна содержаться в дженерик массиве) (*)
+ * categories - категории для сайдбара (*)
+ * setCategory - функция для установки текущей категории (*)
+ * icons - иконки для категорий (*)
+ *
+ * (*) - Не нужно если !sidebar
+ */
 const MainLayout = <T extends string>({
   children,
   sidebar,
@@ -53,6 +66,9 @@ const MainLayout = <T extends string>({
   const [showMenu, setShowMenu] = useState(false);
   const { data: session } = useSession();
 
+  /*
+   * Скрываем оверфлоу при открытии сайдбара
+   */
   useEffect(() => {
     if (showSidebar) {
       document.body.classList.add('overflow-hidden');

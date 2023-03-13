@@ -25,7 +25,7 @@ const Login = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout scrollbarWrapper>
+      <MainLayout scrollbarWrapper centerContent>
         <div className="flex h-full w-full justify-center p-3 pt-12 sm:items-center sm:pt-3">
           <Box type="normal">
             <LoginForm />

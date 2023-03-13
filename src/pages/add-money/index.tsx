@@ -2,6 +2,7 @@ import PaymentMethod from '@/components/add-money/PaymentMethod';
 import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
 import MainLayout from '@/layouts/MainLayout';
+import withAuth from '@/utils/hoc/withAuth';
 
 const AddMoney = () => {
   return (
@@ -27,4 +28,4 @@ const AddMoney = () => {
   );
 };
 
-export default AddMoney;
+export default withAuth(AddMoney);

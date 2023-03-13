@@ -8,6 +8,7 @@ import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
 import MainLayout from '@/layouts/MainLayout';
 import { categories } from '@/utils/constants';
+import withAuth from '@/utils/hoc/withAuth';
 
 const InputDiv = ({ children }: { children: JSX.Element[] }) => {
   return (
@@ -18,13 +19,7 @@ const InputDiv = ({ children }: { children: JSX.Element[] }) => {
 };
 
 const Profile = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    console.log(status);
-    if (status === 'unauthenticated') router.push('/auth/login');
-  }, [router, status]);
+  const { data: session } = useSession();
 
   return (
     <>
@@ -96,4 +91,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);
