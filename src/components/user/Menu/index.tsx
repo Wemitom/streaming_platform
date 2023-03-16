@@ -63,15 +63,17 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
       >
         <nav className="flex w-full flex-col items-center justify-center gap-3">
           <div className="relative mt-10 aspect-square w-32 overflow-hidden rounded-full border-2" />
-          <p>@{session?.user.username}</p>
-          <p className="cursor-pointer">Уведомления</p>
-          <p className="cursor-pointer">Создать подкаст</p>
+          <p>@{session?.name}</p>
+          {/* <p className="cursor-pointer">Уведомления</p> */}
+          <Link href={`/watch/${session?.name}`} onClick={hide}>
+            Создать стрим
+          </Link>
           <p className="cursor-pointer">Пополнить счет</p>
           <p className="cursor-pointer">Вывод средств</p>
-          <p className="cursor-pointer">Филиал</p>
-          <p className="cursor-pointer">Настройки</p>
-          <Link href="/profile">Профиль</Link>
-          <p className="cursor-pointer">Поддержка</p>
+          <p className="cursor-pointer">Реферальный код</p>
+          {/* <p className="cursor-pointer">Настройки</p> */}
+          <Link href="/edit/profile">Профиль</Link>
+          {/* <p className="cursor-pointer">Поддержка</p> */}
           <p onClick={() => signOut()} className="cursor-pointer">
             Выйти
           </p>

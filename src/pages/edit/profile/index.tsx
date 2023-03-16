@@ -36,7 +36,7 @@ const Profile = () => {
                 <Input
                   inputAttributes={{
                     type: 'text',
-                    defaultValue: session?.user.username
+                    defaultValue: session?.name
                   }}
                   glow
                 />
@@ -45,8 +45,8 @@ const Profile = () => {
                 <p className="w-1/3">Email:</p>
                 <Input
                   inputAttributes={{
-                    type: 'text',
-                    defaultValue: session?.user.email
+                    type: 'text'
+                    // defaultValue: session?.user.email
                   }}
                   glow
                 />

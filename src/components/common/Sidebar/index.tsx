@@ -56,7 +56,7 @@ const Sidebar = ({
       >
         {title && custom && (
           <div className="w-full border-b border-white/40 p-6 text-center">
-            {title}
+            <h2 className="text-xl font-semibold">{title}</h2>
           </div>
         )}
         <SimpleBar className="h-0 grow" autoHide={false}>

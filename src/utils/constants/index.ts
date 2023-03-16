@@ -61,3 +61,6 @@ export const sidebarIcon: Record<StreamSidebar, string | undefined> = {
   'Отправить донат': '/images/heart.svg',
   'Пополнить счет': '/images/credit.svg'
 };
+
+export const baseURL =
+  process.env.NODE_ENV === 'development' ? 'http://192.168.1.72:8080' : '';

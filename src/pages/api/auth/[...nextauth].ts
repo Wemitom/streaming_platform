@@ -4,10 +4,17 @@ import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-interface LoginResponse {
-  user: User;
+import { baseURL } from '@/utils/constants';
+
+interface SuccessResponse {
+  status: 'ok';
   token: string;
 }
+interface WrongCredentials {
+  status: 'wrong_credentials';
+  token?: string;
+}
+type LoginResponse = SuccessResponse | WrongCredentials;
 
 async function refreshAccessToken(token: JWT) {
   try {
@@ -47,21 +54,22 @@ export default NextAuth({
     CredentialsProvider({
       id: 'login',
       credentials: {
-        username: { type: 'text' },
+        name: { type: 'text' },
         password: { type: 'password' }
       },
       async authorize(credentials) {
         try {
           const { data }: { data: LoginResponse } = await axios.post(
-            'http://localhost:8085/auth',
-            {
-              identifier: 'a@b.com',
-              password: 'test'
-            }
+            'http://0.0.0.0:8080/user/login',
+            credentials
           );
 
-          const { user, token } = data;
-          return { ...user, accessToken: token };
+          const { status, token } = data;
+          return {
+            name: credentials?.name,
+            status,
+            accessToken: token
+          } as User;
         } catch (error) {
           return null;
         }
@@ -69,10 +77,13 @@ export default NextAuth({
     })
   ],
   callbacks: {
+    async signIn({ user }) {
+      return user.status === 'ok';
+    },
     async jwt({ token, user }) {
       if (user?.accessToken) {
         token.accessToken = user.accessToken;
-        token.user = user;
+        token.name = user.name;
       }
 
       return token;
@@ -95,7 +106,7 @@ export default NextAuth({
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
-      session.user = token.user;
+      session.name = token.name;
 
       return session;
     }

@@ -26,7 +26,7 @@ export default function Home() {
         setCategory={setCategory}
         icons={categoryIcon}
       >
-        <Streams />
+        <Streams category={category} />
       </MainLayout>
     </>
   );

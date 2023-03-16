@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import viewsSVG from 'public/images/views.svg';
 
-import { StreamPreview } from '../interfaces';
+import { StreamPreviewInterface } from '../interfaces';
 
 const StreamPreview = ({
   avatar,
@@ -13,7 +13,7 @@ const StreamPreview = ({
   views,
   preview,
   title
-}: StreamPreview) => {
+}: StreamPreviewInterface) => {
   return (
     <Link
       href={`/watch/${username}`}

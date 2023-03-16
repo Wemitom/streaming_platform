@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
@@ -6,8 +9,21 @@ import { useSession } from 'next-auth/react';
  */
 const withAuth = (Component: () => JSX.Element) => {
   const WithAuthComponent = () => {
-    const { status } = useSession();
+    const { status, data: session } = useSession();
     const router = useRouter();
+
+    useEffect(() => {
+      const getName = async () => {
+        if (!session?.name && session)
+          session.name = (
+            await axios.get(
+              `http://localhost:8080/user/whoami?token=${session?.accessToken}`
+            )
+          ).data;
+      };
+
+      getName();
+    }, [session]);
 
     if (status === 'unauthenticated') {
       router.push('/auth/login');

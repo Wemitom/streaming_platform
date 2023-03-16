@@ -23,7 +23,7 @@ const Chat = () => {
     if (session) {
       setChatMessages([
         ...chatMessages.slice(Math.max(chatMessages.length - 40, 0)),
-        { username: session.user.username, message: input }
+        { username: session.name, message: input }
       ]);
       setInput('');
     }
@@ -62,10 +62,14 @@ const Chat = () => {
           </div>
         )}
       </section>
-      <div className="flex h-11 w-full items-center border-t border-white/40">
+      <label
+        className="flex h-11 w-full items-center border-t border-white/40 focus-within:border-l focus-within:border-white"
+        htmlFor="chat"
+      >
         <input
           placeholder="Введите сообщение"
-          className="h-11 grow bg-transparent pl-10 placeholder:text-white/40 md:pl-2"
+          name="chat"
+          className="h-11 grow bg-transparent pl-10 outline-none placeholder:text-white/40 md:pl-2"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={({ key }) => {
@@ -84,7 +88,7 @@ const Chat = () => {
             <Image src={sendSVG} alt="send" />
           </button>
         </div>
-      </div>
+      </label>
     </>
   );
 };

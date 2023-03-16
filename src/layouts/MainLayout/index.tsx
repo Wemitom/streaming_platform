@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import SimpleBar from 'simplebar-react';
 
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
+import Input from '@/components/common/Input';
+import Modal from '@/components/common/Modal';
 import Sidebar from '@/components/common/Sidebar';
 import Category from '@/components/common/Sidebar/Category';
 import Menu from '@/components/user/Menu';

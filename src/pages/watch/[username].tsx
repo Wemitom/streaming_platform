@@ -1,22 +1,62 @@
-import React, { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import ReactPlayer from 'react-player';
 import SimpleBar from 'simplebar-react';
 
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import Modal from '@/components/common/Modal';
+import Spinner from '@/components/common/Spinner';
 import Chat from '@/components/stream/Chat';
 import NewChallengeForm from '@/components/stream/NewChallengeForm';
 import StreamLayout from '@/layouts/StreamLayout';
 import { challenges } from '@/utils/constants/debug';
 import { classNames } from '@/utils/functions';
-import spinnerSVG from 'public/images/spinner.svg';
 
 const Stream = () => {
   const [chosenFunc, setChosenFunc] = useState<'chat' | 'challenges'>('chat');
+  const [showModal, setShowModal] = useState(false);
+
+  const ref = useRef<ReactPlayer | null>(null);
+
   const { query } = useRouter();
   const { username } = query;
+  const { data: session } = useSession();
+
+  const getScreen = () => {
+    if (username) {
+      if (
+        !session?.name ||
+        (username as string).toLowerCase() !== session.name.toLowerCase()
+      ) {
+        return (
+          <ReactPlayer
+            url="https://livesim.dashif.org/livesim/chunkdur_1/ato_7/testpic4_8s/Manifest.mpd"
+            height="100%"
+            width="100%"
+            ref={ref}
+            fallback={
+              <div className="flex h-full w-full items-center justify-center">
+                <Spinner />
+              </div>
+            }
+            playsinline
+            playing
+          />
+        );
+      } else if (
+        (username as string).toLowerCase() === session?.name.toLowerCase()
+      ) {
+        return (
+          <Button text="Создать стрим" handleClick={() => setShowModal(true)} />
+        );
+      }
+    }
+  };
 
   return (
     <>
@@ -27,36 +67,11 @@ const Stream = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StreamLayout>
-        {({ mode, mdBP, hasWindow }) => (
+        {({ mode, mdBP }) => (
           <div className="relative flex max-w-full grow flex-col md:flex-row">
             <div className="flex w-full flex-col border-white/40 md:border-r">
-              <div className="aspect-video max-h-full bg-black">
-                {hasWindow ? (
-                  <ReactPlayer
-                    url="https://livesim.dashif.org/livesim/chunkdur_1/ato_7/testpic4_8s/Manifest.mpd"
-                    height="100%"
-                    width="100%"
-                    fallback={
-                      <div className="flex h-full w-full items-center justify-center">
-                        <Image
-                          src={spinnerSVG}
-                          className="animate-spin"
-                          alt="spinner"
-                        />
-                      </div>
-                    }
-                    playsinline
-                    playing
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <Image
-                      src={spinnerSVG}
-                      className="animate-spin"
-                      alt="spinner"
-                    />
-                  </div>
-                )}
+              <div className="flex aspect-video max-h-full items-center justify-center bg-black">
+                {getScreen()}
               </div>
             </div>
             <div className="flex grow flex-col md:w-80">
@@ -95,6 +110,37 @@ const Stream = () => {
           </div>
         )}
       </StreamLayout>
+
+      <Modal show={showModal} hide={() => setShowModal(false)}>
+        <div className="flex flex-col gap-4">
+          <h1 className="text-2xl font-bold">Создать стрим</h1>
+          <div className="flex flex-col gap-2">
+            <p>Stream key:</p>
+            <div className="flex gap-4">
+              <button>
+                <Image
+                  src="/images/refresh.svg"
+                  alt="refresh"
+                  width={32}
+                  height={32}
+                />
+              </button>
+              <Input
+                inputAttributes={{ readOnly: true, value: 'aaaaaaaaaaa' }}
+                glow
+              />
+              <button onClick={() => navigator.clipboard.writeText('aa')}>
+                <Image
+                  src="/images/copy.svg"
+                  alt="copy"
+                  width={32}
+                  height={32}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

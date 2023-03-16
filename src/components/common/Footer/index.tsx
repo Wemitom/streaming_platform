@@ -53,6 +53,7 @@ const FooterButton = ({
           alt={text}
           width={32}
           height={32}
+          className="h-[32px] w-[32px]"
         />
         <p className={classNames(shortText ? 'hidden lg:block' : '')}>{text}</p>
         <p className="block lg:hidden">{shortText}</p>
@@ -211,7 +212,7 @@ const Footer = ({
             />
           </>
         );
-      case pathname === '/watch/[...username]' && !showMenu:
+      case pathname === '/watch/[username]' && !showMenu:
         return (
           <>
             <FooterButton
@@ -234,7 +235,7 @@ const Footer = ({
             <FooterButton
               id="heart"
               type="button"
-              handleClick={() => console.log('donate')}
+              handleClick={() => listener && listener('donate')}
               text="Донат"
             />
             <FooterButton

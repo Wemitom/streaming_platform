@@ -2,14 +2,14 @@ import NextAuth from 'next-auth/next';
 
 declare module 'next-auth' {
   interface User {
-    username: string;
-    email: string;
+    name: string;
+    status: 'ok' | 'wrong_credentials';
     accessToken?: string;
   }
 
   interface Session {
     accessToken: string;
-    user: User;
+    name: string;
   }
 }
 
@@ -17,7 +17,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     accessToken: string;
     refreshToken: string;
-    user: User;
+    name: string;
     // expires_in: number;
     // accessTokenExpires: number;
   }

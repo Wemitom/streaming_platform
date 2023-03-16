@@ -1,7 +1,7 @@
 import Box from '@/components/common/Box';
-import { StreamPreview } from '@/components/home/Streams/interfaces';
+import { StreamPreviewInterface } from '@/components/home/Streams/interfaces';
 
-export const streams: StreamPreview[] = [
+export const streams: StreamPreviewInterface[] = [
   {
     avatar:
       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541',
