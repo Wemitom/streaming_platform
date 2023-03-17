@@ -33,16 +33,16 @@ const Header = ({
       )}
       <Link href="/">
         <Image
-          src="/images/logo.svg"
+          priority
+          src="/images/logo.png"
           alt="logo"
           sizes="(max-width: 1024px) 180px, 158px"
           width={180}
           height={58}
           className={classNames(
-            'top-2 h-[44px] w-[158px] lg:h-[58px] lg:w-[180px]',
+            'top-2 w-[158px] lg:w-[180px]',
             sidebar ? 'sidebar:ml-[3.75rem]' : 'sm:ml-[3.75rem] ml-6'
           )}
-          priority
         />
       </Link>
     </header>

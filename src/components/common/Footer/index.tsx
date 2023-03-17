@@ -56,7 +56,7 @@ const FooterButton = ({
           className="h-[32px] w-[32px]"
         />
         <p className={classNames(shortText ? 'hidden lg:block' : '')}>{text}</p>
-        <p className="block lg:hidden">{shortText}</p>
+        {shortText && <p className="block lg:hidden">{shortText}</p>}
       </Link>
     );
   } else {

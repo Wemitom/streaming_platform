@@ -45,7 +45,7 @@ const Sidebar = ({
   return (
     <aside
       ref={refAside}
-      className="sidebar:relative sidebar:w-80 sidebar:flex sidebar:z-0 absolute top-0 z-30 hidden w-full flex-row border-r border-white/40"
+      className="sidebar:relative sidebar:w-80 sidebar:flex sidebar:z-0 fixed top-0 z-30 hidden w-full flex-row border-r border-white/40"
     >
       <div
         className={classNames(

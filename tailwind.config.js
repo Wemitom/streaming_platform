@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        deskVector: 'url(/images/bgDesk.png)',
+        deskVector: 'url(/images/bgDesk.svg)',
         phoneVector: 'url(/images/bgPhone.svg)'
       },
       colors: {

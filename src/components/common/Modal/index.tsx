@@ -37,7 +37,7 @@ const Modal = ({
       aria-modal
       aria-hidden={!show}
     >
-      <div className="sidebar:w-4/12 w-fit bg-[#491373] px-10 pt-5 pb-4">
+      <div className="sidebar:w-4/12 w-10/12 bg-[#491373] px-10 pt-5 pb-4 sm:w-fit">
         <div className="flex flex-col gap-6">
           {children}
           <button className="ml-auto flex gap-1" onClick={hide}>
