@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
 import MainLayout from '@/layouts/MainLayout';
-import withAuth from '@/utils/hoc/withAuth';
 
 const Referral = () => {
   return (
@@ -98,4 +97,4 @@ const Referral = () => {
   );
 };
 
-export default withAuth(Referral);
+export default Referral;

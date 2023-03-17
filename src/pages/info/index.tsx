@@ -12,10 +12,7 @@ const Info = () => {
   return (
     <>
       <Head>
-        <title>Info</title>
-        <meta name="description" content="Info" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Информация</title>
       </Head>
 
       <MainLayout

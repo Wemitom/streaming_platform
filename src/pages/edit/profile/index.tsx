@@ -1,14 +1,10 @@
-import { useEffect } from 'react';
-
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
 import MainLayout from '@/layouts/MainLayout';
 import { categories } from '@/utils/constants';
-import withAuth from '@/utils/hoc/withAuth';
 
 const InputDiv = ({ children }: { children: JSX.Element[] }) => {
   return (
@@ -26,6 +22,7 @@ const Profile = () => {
       <Head>
         <title>Профиль</title>
       </Head>
+
       <MainLayout scrollbarWrapper centerContent>
         <div className="flex h-full w-full justify-center p-3 pt-12 sm:items-center sm:pt-3">
           <Box type="normal">
@@ -91,4 +88,4 @@ const Profile = () => {
   );
 };
 
-export default withAuth(Profile);
+export default Profile;

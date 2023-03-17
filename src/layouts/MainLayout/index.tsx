@@ -38,30 +38,43 @@ interface NoSidebar<T extends string>
 type PropsType<T extends string> = RequireSidebar<T> | NoSidebar<T>;
 
 /**
- * Отображает основной лэйаут с хедером и футером
- * Пропсы:
- * sidebar - нужен ли сайдбар
- * autoHideScroll - нужно ли прятать скроллбар
- * scrollbarWrapper - нужен ли враппер с скроллбаром
- * centerConten - нужно ли расположить контент по центру
- * curCategory - текущая категория для сайдбара (должна содержаться в дженерик массиве) (*)
- * categories - категории для сайдбара (*)
- * setCategory - функция для установки текущей категории (*)
- * icons - иконки для категорий (*)
- *
- * (*) - Не нужно если !sidebar
+ * Отображает основной лэйаут с хедером, футером и сайдбаром
  */
 const MainLayout = <T extends string>({
   children,
   sidebar,
+  /**
+   * Нужно ли рендерить сайдбар
+   */
   autoHideScroll,
+  /**
+   * Прятать ли скроллбар тогда, когда пользователь не двигает мышку
+   */
   scrollbarWrapper,
+  /**
+   * Нужен ли враппер со скроллбаром
+   */
   centerContent,
+  /**
+   * Нужно ли расположить контент по центру
+   */
   curCategory,
+  /**
+   * Текущая категория для сайдбара (Не нужно если !sidebar)
+   */
   categories,
+  /**
+   * Все категории для сайдбара (Не нужно если !sidebar)
+   */
   setCategory,
+  /**
+   * Функция для установки текущей категории (Не нужно если !sidebar)
+   */
   icons
-}: PropsType<T>) => {
+}: /**
+ * Иконки для категорий (Не нужно если !sidebar)
+ */
+PropsType<T>) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const { data: session } = useSession();

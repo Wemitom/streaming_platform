@@ -1,10 +1,8 @@
 import axios from 'axios';
-import { User } from 'next-auth';
+import { NextAuthOptions, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-import { baseURL } from '@/utils/constants';
 
 interface SuccessResponse {
   status: 'ok';
@@ -49,7 +47,7 @@ async function refreshAccessToken(token: JWT) {
   }
 }
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: 'login',
@@ -111,4 +109,6 @@ export default NextAuth({
       return session;
     }
   }
-});
+};
+
+export default NextAuth(authOptions);

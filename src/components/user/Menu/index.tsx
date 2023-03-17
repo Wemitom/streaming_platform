@@ -56,19 +56,24 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
     >
       <SimpleBar
         className={classNames(
-          'w-full p-3 bg-primary/50 backdrop-blur-lg h-full',
-          show ? 'animate-slide-in-right' : 'animate-slide-out-right'
+          'w-full p-3 bg-primary/50 backdrop-blur-[16px_opacity(0)] h-full',
+          show ? 'animate-fade-in-backdrop' : 'animate-fade-out-backdrop'
         )}
         autoHide={false}
       >
         <nav className="flex w-full flex-col items-center justify-center gap-3">
-          <div className="relative mt-10 aspect-square w-32 overflow-hidden rounded-full border-2" />
-          <p>@{session?.name}</p>
+          <Link
+            className="flex flex-col items-center gap-2"
+            href={`/profile/${session?.name}`}
+          >
+            <div className="relative mt-10 aspect-square w-32 overflow-hidden rounded-full border-2" />
+            <p>@{session?.name}</p>
+          </Link>
           {/* <p className="cursor-pointer">Уведомления</p> */}
           <Link href={`/watch/${session?.name}`} onClick={hide}>
             Создать стрим
           </Link>
-          <p className="cursor-pointer">Пополнить счет</p>
+          <Link href="/add-money">Пополнить счет</Link>
           <p className="cursor-pointer">Вывод средств</p>
           <Link href="/referral">Реферальная система</Link>
           {/* <p className="cursor-pointer">Настройки</p> */}

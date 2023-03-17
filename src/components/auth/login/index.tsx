@@ -12,7 +12,12 @@ interface LoginData {
 }
 
 const LoginForm = () => {
-  const { register, handleSubmit } = useForm<LoginData>();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = useForm<LoginData>();
   const router = useRouter();
 
   const onSubmit = async (data: LoginData) => {
@@ -22,7 +27,12 @@ const LoginForm = () => {
         ...data
       });
 
-      result?.ok && router.push('/');
+      result?.ok && router.push((router.query.callbackUrl as string) ?? '/');
+      result?.error &&
+        setError('root', {
+          type: 'custom',
+          message: 'Введен неверный логин или пароль'
+        });
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +68,7 @@ const LoginForm = () => {
           }}
         />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col items-center gap-3">
         <Button
           text="Войти"
           handleClick={() => {
@@ -67,6 +77,9 @@ const LoginForm = () => {
           submit
         />
         <Button text="Регистрация" handleClick={() => router.push('sign-up')} />
+        {errors.root && (
+          <p className="text-s text-chat pl-2">{errors.root.message}</p>
+        )}
       </div>
     </form>
   );
