@@ -70,7 +70,7 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
           </Link>
           <p className="cursor-pointer">Пополнить счет</p>
           <p className="cursor-pointer">Вывод средств</p>
-          <p className="cursor-pointer">Реферальный код</p>
+          <Link href="/referral">Реферальная система</Link>
           {/* <p className="cursor-pointer">Настройки</p> */}
           <Link href="/edit/profile">Профиль</Link>
           {/* <p className="cursor-pointer">Поддержка</p> */}
