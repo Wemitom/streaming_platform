@@ -74,7 +74,7 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
             Создать стрим
           </Link>
           <Link href="/add-money">Пополнить счет</Link>
-          <p className="cursor-pointer">Вывод средств</p>
+          <Link href="/withdraw-money">Вывод средств</Link>
           <Link href="/referral">Реферальная система</Link>
           {/* <p className="cursor-pointer">Настройки</p> */}
           <Link href="/edit/profile">Профиль</Link>

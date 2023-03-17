@@ -14,7 +14,7 @@ const InputDiv = ({ children }: { children: JSX.Element[] }) => {
   );
 };
 
-const Profile = () => {
+const ProfileEdit = () => {
   const { data: session } = useSession();
 
   return (
@@ -88,4 +88,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileEdit;

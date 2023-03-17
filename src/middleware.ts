@@ -11,4 +11,6 @@ export default withAuth({
   }
 });
 
-export const config = { matcher: ['/edit/profile', '/add-money', '/referral'] };
+export const config = {
+  matcher: ['/edit/profile', '/add-money', '/withdraw-money', '/referral']
+};
