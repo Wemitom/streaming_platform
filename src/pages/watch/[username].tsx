@@ -1,31 +1,44 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import ReactPlayer from 'react-player';
 import SimpleBar from 'simplebar-react';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
-import Spinner from '@/components/common/Spinner';
 import Chat from '@/components/stream/Chat';
 import NewChallengeForm from '@/components/stream/NewChallengeForm';
+import Player from '@/components/stream/Player';
 import StreamLayout from '@/layouts/StreamLayout';
-import { challenges } from '@/utils/constants/debug';
 import { classNames } from '@/utils/functions';
 
 const Stream = () => {
   const [chosenFunc, setChosenFunc] = useState<'chat' | 'challenges'>('chat');
   const [showModal, setShowModal] = useState(false);
-
-  const ref = useRef<ReactPlayer | null>(null);
+  const [showControls, setShowControls] = useState(false);
+  const [mouseOver, setMouseOver] = useState(0);
 
   const { query } = useRouter();
   const { username } = query;
   const { data: session } = useSession();
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    const disableControls = () => setShowControls(false);
+
+    if (showControls) {
+      if (timeoutRef.current && timeoutRef.current.refresh)
+        timeoutRef.current.refresh();
+      else timeoutRef.current = setTimeout(disableControls, 3000);
+    }
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [showControls, mouseOver]);
 
   const getScreen = () => {
     if (username) {
@@ -33,21 +46,7 @@ const Stream = () => {
         !session?.name ||
         (username as string).toLowerCase() !== session.name.toLowerCase()
       ) {
-        return (
-          <ReactPlayer
-            url="https://livesim.dashif.org/livesim/chunkdur_1/ato_7/testpic4_8s/Manifest.mpd"
-            height="100%"
-            width="100%"
-            ref={ref}
-            fallback={
-              <div className="flex h-full w-full items-center justify-center">
-                <Spinner />
-              </div>
-            }
-            playsinline
-            playing
-          />
-        );
+        return <Player showControls={showControls} />;
       } else if (
         (username as string).toLowerCase() === session?.name.toLowerCase()
       ) {
@@ -66,11 +65,18 @@ const Stream = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <StreamLayout>
         {({ mode, mdBP }) => (
           <div className="relative flex max-w-full grow flex-col md:flex-row">
             <div className="flex w-full flex-col border-white/40 md:border-r">
-              <div className="flex aspect-video max-h-full items-center justify-center bg-black">
+              <div
+                className="relative flex aspect-video max-h-full items-center justify-center bg-black"
+                onMouseMove={() => {
+                  setShowControls(true);
+                  setMouseOver((prevState) => ++prevState);
+                }}
+              >
                 {getScreen()}
               </div>
             </div>
@@ -101,7 +107,11 @@ const Stream = () => {
               </div>
               {mdBP && chosenFunc === 'challenges' ? (
                 <SimpleBar className="h-0 grow">
-                  {mode === 'view' ? challenges : <NewChallengeForm />}
+                  {mode === 'view' ? (
+                    <p className="text-center">Здесь пусто</p>
+                  ) : (
+                    <NewChallengeForm />
+                  )}
                 </SimpleBar>
               ) : (
                 <Chat />
@@ -111,36 +121,38 @@ const Stream = () => {
         )}
       </StreamLayout>
 
-      <Modal show={showModal} hide={() => setShowModal(false)}>
-        <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold">Создать стрим</h1>
-          <div className="flex flex-col gap-2">
-            <p>Stream key:</p>
-            <div className="flex gap-4">
-              <button>
-                <Image
-                  src="/images/refresh.svg"
-                  alt="refresh"
-                  width={32}
-                  height={32}
+      {showModal && (
+        <Modal show={showModal} hide={() => setShowModal(false)}>
+          <div className="flex flex-col gap-4">
+            <h1 className="text-2xl font-bold">Создать стрим</h1>
+            <div className="flex flex-col gap-2">
+              <p>Stream key:</p>
+              <div className="flex gap-4">
+                <button>
+                  <Image
+                    src="/images/refresh.svg"
+                    alt="refresh"
+                    width={32}
+                    height={32}
+                  />
+                </button>
+                <Input
+                  inputAttributes={{ readOnly: true, value: 'aaaaaaaaaaa' }}
+                  glow
                 />
-              </button>
-              <Input
-                inputAttributes={{ readOnly: true, value: 'aaaaaaaaaaa' }}
-                glow
-              />
-              <button onClick={() => navigator.clipboard.writeText('aa')}>
-                <Image
-                  src="/images/copy.svg"
-                  alt="copy"
-                  width={32}
-                  height={32}
-                />
-              </button>
+                <button onClick={() => navigator.clipboard.writeText('aa')}>
+                  <Image
+                    src="/images/copy.svg"
+                    alt="copy"
+                    width={32}
+                    height={32}
+                  />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 };

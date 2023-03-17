@@ -51,7 +51,7 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
 
   return (
     <aside
-      className="absolute z-10 hidden h-full w-full flex-col items-center gap-3 overflow-hidden"
+      className="absolute z-20 hidden h-full w-full flex-col items-center gap-3 overflow-hidden"
       ref={refAside}
     >
       <SimpleBar

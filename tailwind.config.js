@@ -55,7 +55,7 @@ module.exports = {
         'slide-out-left': 'slideOutLeft 0.3s ease-in-out forwards',
         'slide-in-right': 'slideInRight 0.3s ease-in-out',
         'slide-out-right': 'slideOutRight 0.3s ease-in-out forwards',
-        'fade-in': 'fadeIn 0.1s linear',
+        'fade-in': 'fadeIn 0.1s linear forwards',
         'fade-out': 'fadeOut 0.2s ease-in-out forwards'
       },
       height: {
