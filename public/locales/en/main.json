@@ -1,0 +1,11 @@
+{
+  "categories": {
+    "all": "All",
+    "girls": "Girls",
+    "guys": "Guys",
+    "games": "Games",
+    "humor": "Humor",
+    "trash": "Trash",
+    "group": "Group"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Log in",
+  "form": {
+    "name-placeholder": "Login",
+    "password-placeholder": "Password",
+    "login-button": "Log in",
+    "signup-button": "Sign up",
+    "wrong-credentials": "Either login or password you`ve entered is incorrect"
+  }
+}

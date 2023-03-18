@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import { useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
@@ -19,6 +20,7 @@ const LoginForm = () => {
     formState: { errors }
   } = useForm<LoginData>();
   const router = useRouter();
+  const { t } = useTranslation('login');
 
   const onSubmit = async (data: LoginData) => {
     try {
@@ -31,7 +33,7 @@ const LoginForm = () => {
       result?.error &&
         setError('root', {
           type: 'custom',
-          message: 'Введен неверный логин или пароль'
+          message: t('form.wrong-credentials') as string
         });
     } catch (error) {
       console.error(error);
@@ -54,7 +56,7 @@ const LoginForm = () => {
         <Input
           inputAttributes={{
             type: 'text',
-            placeholder: 'Логин',
+            placeholder: t('form.name-placeholder') as string,
             autoComplete: 'username',
             ...register('name', { required: true })
           }}
@@ -62,7 +64,7 @@ const LoginForm = () => {
         <Input
           inputAttributes={{
             type: 'password',
-            placeholder: 'Пароль',
+            placeholder: t('form.password-placeholder') as string,
             autoComplete: 'current-password',
             ...register('password', { required: true })
           }}
@@ -70,13 +72,16 @@ const LoginForm = () => {
       </div>
       <div className="flex flex-col items-center gap-3">
         <Button
-          text="Войти"
+          text={t('form.login-button')}
           handleClick={() => {
             return;
           }}
           submit
         />
-        <Button text="Регистрация" handleClick={() => router.push('sign-up')} />
+        <Button
+          text={t('form.signup-button')}
+          handleClick={() => router.push('sign-up')}
+        />
         {errors.root && (
           <p className="text-s text-chat pl-2">{errors.root.message}</p>
         )}

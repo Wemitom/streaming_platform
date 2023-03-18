@@ -1,0 +1,18 @@
+{
+  "title": "Sign up",
+  "form": {
+    "name-placeholder": "Login",
+    "email-placeholder": "Email",
+    "password-placeholder": "Password",
+    "confirm-password-placeholder": "Confirm password",
+    "signup-button": "Sign up",
+    "user-exists": "User with this name already exists",
+    "unknown-error": "An unknown error occured",
+    "name-short": "Name cant be shorter than 3 letters",
+    "name-long": "Name cant be longer than 10 letters",
+    "required": "Required",
+    "not-email": "Entered value is not an email",
+    "password-regex": "Password must contain at least one lower case letter, one upper case letter, one digit and one special symbol",
+    "password-not-match": "Passwords must match"
+  }
+}

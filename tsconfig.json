@@ -25,7 +25,8 @@
     "**/*.tsx",
     "src/pages/watch/...username]tsx",
     "src/pages/watch/...username]tsx",
-    "src/pages/watch/...username.tsx"
+    "src/pages/watch/...username.tsx",
+    "next-i18next.config.hs"
   ],
   "exclude": ["node_modules"]
 }

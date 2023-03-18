@@ -4,13 +4,13 @@ export const SM_BP = 640,
   SIDEBAR_BP = 1280;
 
 export const categories = [
-  'Все',
-  'Девушки',
-  'Мужчины',
-  'Игры',
-  'Юмор',
-  'Треш',
-  'Компания'
+  'all',
+  'girls',
+  'guys',
+  'games',
+  'humor',
+  'trash',
+  'group'
 ] as const;
 export const categoriesInfo = [
   'A',
@@ -23,11 +23,11 @@ export const categoriesInfo = [
   'Very long text to see if it works right in the layout'
 ] as const;
 export const streamSidebar = [
-  'Назад',
-  'Подписаться',
-  'Новый челлендж',
-  'Отправить донат',
-  'Пополнить счет'
+  'sidebar.back',
+  'sidebar.subscribe',
+  'sidebar.new-challenge',
+  'sidebar.donate',
+  'sidebar.add-money'
 ] as const;
 
 export type Categories = (typeof categories)[number];
@@ -46,21 +46,18 @@ export const infoContent: Record<CategoriesInfo, string> = {
     '"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.""On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.""On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.""On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.""On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.""On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.""On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."'
 };
 export const categoryIcon: Record<Categories, string> = {
-  Все: '/images/all.svg',
-  Девушки: '/images/girls.svg',
-  Игры: '/images/games.svg',
-  Компания: '/images/company.svg',
-  Мужчины: '/images/guys.svg',
-  Треш: '/images/trash.svg',
-  Юмор: '/images/humor.svg'
+  all: '/images/all.svg',
+  girls: '/images/girls.svg',
+  games: '/images/games.svg',
+  group: '/images/group.svg',
+  guys: '/images/guys.svg',
+  trash: '/images/trash.svg',
+  humor: '/images/humor.svg'
 };
 export const sidebarIcon: Record<StreamSidebar, string | undefined> = {
-  Назад: '/images/arrow.svg',
-  Подписаться: undefined,
-  'Новый челлендж': '/images/challenge.svg',
-  'Отправить донат': '/images/heart.svg',
-  'Пополнить счет': '/images/credit.svg'
+  'sidebar.back': '/images/arrow.svg',
+  'sidebar.subscribe': undefined,
+  'sidebar.new-challenge': '/images/challenge.svg',
+  'sidebar.donate': '/images/heart.svg',
+  'sidebar.add-money': '/images/credit.svg'
 };
-
-export const baseURL =
-  process.env.NODE_ENV === 'development' ? 'http://192.168.1.72:8080' : '';

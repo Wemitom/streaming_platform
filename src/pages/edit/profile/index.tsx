@@ -20,7 +20,7 @@ const ProfileEdit = () => {
   return (
     <>
       <Head>
-        <title>Профиль</title>
+        <title>Редактирование</title>
       </Head>
 
       <MainLayout scrollbarWrapper centerContent>

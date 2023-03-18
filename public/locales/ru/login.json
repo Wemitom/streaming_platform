@@ -1,0 +1,10 @@
+{
+  "title": "Вход",
+  "form": {
+    "name-placeholder": "Логин",
+    "password-placeholder": "Пароль",
+    "login-button": "Войти",
+    "signup-button": "Регистрация",
+    "wrong-credentials": "Введен неверный логин или пароль"
+  }
+}

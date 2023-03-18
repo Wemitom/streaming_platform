@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import SimpleBar from 'simplebar-react';
 
 import micSVG from 'public/images/mic.svg';
@@ -17,6 +18,7 @@ const Chat = () => {
   const [chatMessages, setChatMessages] = useState<MessageInterface[]>([]);
   const [input, setInput] = useState('');
   const { data: session } = useSession();
+  const { t } = useTranslation('chat');
   const wrapperRef = useRef<HTMLDivElement>();
 
   const sendMessage = () => {
@@ -58,7 +60,7 @@ const Chat = () => {
               width={97}
               height={86}
             />
-            <p>Напиши сообщение</p>
+            <p>{t('empty-chat')}</p>
           </div>
         )}
       </section>
@@ -67,7 +69,7 @@ const Chat = () => {
         htmlFor="chat"
       >
         <input
-          placeholder="Введите сообщение"
+          placeholder={t('chat-placeholder') as string}
           name="chat"
           className="h-11 grow bg-transparent pl-10 outline-none placeholder:text-white/40 md:pl-2"
           value={input}

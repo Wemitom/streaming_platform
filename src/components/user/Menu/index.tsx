@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useRef } from 'react';
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import SimpleBar from 'simplebar-react';
 
 import { classNames } from '@/utils/functions';
 
 const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
   const { data: session } = useSession();
+  const { t } = useTranslation('common');
 
   const refAside = useRef<null | HTMLDivElement>(null);
 
@@ -71,17 +73,15 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
           </Link>
           {/* <p className="cursor-pointer">Уведомления</p> */}
           <Link href={`/watch/${session?.name}`} onClick={hide}>
-            Создать стрим
+            {t('menu.stream')}
           </Link>
-          <Link href="/add-money">Пополнить счет</Link>
-          <Link href="/withdraw-money">Вывод средств</Link>
-          <Link href="/referral">Реферальная система</Link>
+          <Link href="/add-money">{t('menu.add-money')}</Link>
+          <Link href="/withdraw-money">{t('menu.withdraw-money')}</Link>
+          <Link href="/referral">{t('menu.referral')}</Link>
           {/* <p className="cursor-pointer">Настройки</p> */}
-          <Link href="/edit/profile">Профиль</Link>
+          <Link href="/edit/profile">{t('menu.profile')}</Link>
           {/* <p className="cursor-pointer">Поддержка</p> */}
-          <p onClick={() => signOut()} className="cursor-pointer">
-            Выйти
-          </p>
+          <button onClick={() => signOut()}>{t('menu.sign-out')}</button>
         </nav>
       </SimpleBar>
     </aside>

@@ -1,4 +1,8 @@
+import { getCookie } from 'cookies-next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import PaymentMethod from '@/components/add-money/PaymentMethod';
 import Box from '@/components/common/Box';
@@ -6,10 +10,12 @@ import Input from '@/components/common/Input';
 import MainLayout from '@/layouts/MainLayout';
 
 const AddMoney = () => {
+  const { t } = useTranslation('add-money');
+
   return (
     <>
       <Head>
-        <title>Пополнить счет</title>
+        <title>{t('title')}</title>
       </Head>
 
       <MainLayout scrollbarWrapper centerContent>
@@ -17,10 +23,10 @@ const AddMoney = () => {
           <Box type="normal">
             <div className="flex h-full w-full flex-col gap-10 p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                <p className="whitespace-nowrap">Сумма &#x24;: </p>
+                <p className="whitespace-nowrap">{t('sum')} &#x24;: </p>
                 <Input inputAttributes={{ type: 'text' }} />
               </div>
-              <p className="text-white/40">Платёжная система:</p>
+              <p className="text-white/40">{t('payment')}:</p>
               <div className="flex w-full flex-col flex-wrap items-center gap-5 sm:flex-row sm:justify-center">
                 <PaymentMethod
                   name="bitcoin"
@@ -52,3 +58,22 @@ const AddMoney = () => {
 };
 
 export default AddMoney;
+
+export const getServerSideProps = async ({
+  req,
+  res
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
+  const locale = getCookie('locale', { req, res });
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
+        'common',
+        'add-money'
+      ]))
+    }
+  };
+};

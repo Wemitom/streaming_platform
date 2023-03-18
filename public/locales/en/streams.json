@@ -1,0 +1,15 @@
+{
+  "sidebar": {
+    "back": "Back",
+    "subscribe": "Subscribe",
+    "new-challenge": "New challenge",
+    "challenges": "Challenges",
+    "donate": "Donate",
+    "add-money": "Add money"
+  },
+  "empty": "Empty",
+  "modal": {
+    "donate": "Donate",
+    "sum": "Sum"
+  }
+}

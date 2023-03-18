@@ -5,6 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -16,24 +17,21 @@ const validationSchema = yup
   .object({
     name: yup
       .string()
-      .min(3, 'Логин не может быть короче 3 символов')
-      .max(10, 'Логин не может быть длинее 8 символов')
-      .required('Обязательно для заполнения'),
-    email: yup
-      .string()
-      .email('Введите email!')
-      .required('Обязательно для заполнения'),
+      .required('form.required')
+      .min(3, 'form.name-short')
+      .max(10, 'form.name-long'),
+    email: yup.string().email('form.not-email').required('form.required'),
     password: yup
       .string()
+      .required('form.required')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])(?=.*[\d])[A-Za-z\d@$!%*?&]+$/,
-        'Пароль должен содержать как минимум одну строчную букву латинского алфавита, одну заглавную букву латинского алфавита, одну цифру и один специальный символ'
-      )
-      .required('Обязательно для заполнения'),
+        'form.password-regex'
+      ),
     passwordConfirm: yup
       .string()
-      .required('Обязательно для заполнения')
-      .oneOf([yup.ref('password')], 'Пароли должны совпадать')
+      .required('form.required')
+      .oneOf([yup.ref('password')], 'form.password-not-much')
   })
   .required();
 type SignupData = yup.InferType<typeof validationSchema>;
@@ -46,6 +44,8 @@ const SignupForm = () => {
     setError
   } = useForm<SignupData>({ resolver: yupResolver(validationSchema) });
   const [unknownError, setUnknownError] = useState(false);
+  const router = useRouter();
+  const { t } = useTranslation('signup');
 
   const onSubmit = async (data: SignupData) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -71,7 +71,7 @@ const SignupForm = () => {
         case 'user_exists':
           setError('name', {
             type: 'custom',
-            message: 'Такой логин уже существует'
+            message: t('form.user-exists') as string
           });
           break;
         default:
@@ -83,7 +83,6 @@ const SignupForm = () => {
     }
   };
 
-  const router = useRouter();
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -100,60 +99,64 @@ const SignupForm = () => {
         <Input
           inputAttributes={{
             type: 'text',
-            placeholder: 'Ваше имя',
+            placeholder: t('form.name-placeholder') as string,
             autoComplete: 'username',
             ...register('name', { required: true })
           }}
         />
         {errors.name && (
-          <p className="text-s text-chat pl-2">{errors.name.message}</p>
+          <p className="text-s text-chat pl-2">
+            {t(errors.name.message as string)}
+          </p>
         )}
         <Input
           inputAttributes={{
             type: 'text',
-            placeholder: 'Электронная почта',
+            placeholder: t('form.email-placeholder') as string,
             autoComplete: 'email',
             ...register('email', { required: true })
           }}
         />
         {errors.email && (
-          <p className="text-s text-chat pl-2">{errors.email.message}</p>
+          <p className="text-s text-chat pl-2">
+            {t(errors.email.message as string)}
+          </p>
         )}
         <Input
           inputAttributes={{
             type: 'password',
-            placeholder: 'Пароль',
+            placeholder: t('form.password-placeholder') as string,
             autoComplete: 'new-password',
             ...register('password', { required: true })
           }}
         />
         {errors.password && (
-          <p className="text-s text-chat pl-2">{errors.password.message}</p>
+          <p className="text-s text-chat pl-2">
+            {t(errors.password.message as string)}
+          </p>
         )}
         <Input
           inputAttributes={{
             type: 'password',
-            placeholder: 'Повторите пароль',
+            placeholder: t('form.confirm-password-placeholder') as string,
             autoComplete: 'new-password',
             ...register('passwordConfirm', { required: true })
           }}
         />
         {errors.passwordConfirm && (
           <p className="text-s text-chat pl-2">
-            {errors.passwordConfirm.message}
+            {t(errors.passwordConfirm.message as string)}
           </p>
         )}
       </div>
       <div className="flex flex-col items-center gap-3">
         <Button
-          text="Регистрация"
+          text={t('form.signup-button')}
           handleClick={() => router.push('sign-up')}
           submit
         />
         {unknownError && (
-          <p className="text-s text-chat pl-2">
-            При регистрации произошла неизвестная ошибка
-          </p>
+          <p className="text-s text-chat pl-2">{t('form.unknown-error')}</p>
         )}
       </div>
     </form>

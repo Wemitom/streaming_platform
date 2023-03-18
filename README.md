@@ -2,12 +2,12 @@
 
 ### TO-DO LIST:
 
-1. Make a mobile/desktop layout (!!)
+1. ~~Make a mobile/desktop layout~~
    - ~~Home page~~
-   - Stream page
+   - ~~Stream page~~
    - ~~Login/Signup~~
    - ~~Info~~
-   - User related stuff
+   - ~~User related stuff~~
 2. ~~Add auth functionality~~
 3. ~~Figure out streaming and player stuff~~
 4. Optimize (!)

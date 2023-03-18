@@ -2,13 +2,11 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Montserrat } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import { appWithTranslation } from 'next-i18next';
 
 const montserrat = Montserrat({ subsets: ['latin', 'cyrillic'] });
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps }
-}: AppProps) {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
     <SessionProvider session={session}>
       <div
@@ -21,4 +19,6 @@ export default function App({
       </div>
     </SessionProvider>
   );
-}
+};
+
+export default appWithTranslation(App);

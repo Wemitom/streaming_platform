@@ -1,0 +1,37 @@
+{
+  "back": "Back",
+  "addMoney": "Add money",
+  "shortAddMoney": "Money",
+  "auth": {
+    "balance": "Balance: 0&#8381;",
+    "menu": "Menu",
+    "login": "Login"
+  },
+  "home": {
+    "info": "Information",
+    "shortInfo": "Info",
+    "terms": "Terms of Service",
+    "shortTerms": "ToS"
+  },
+  "login": {
+    "password": "Forgot password",
+    "shortPassword": "Password",
+    "signup": "Create account",
+    "shortSignup": "Account"
+  },
+  "signup": {
+    "loginSignup": "Login"
+  },
+  "stream": {
+    "newChallenge": "New challenge",
+    "challenges": "Challenges",
+    "donate": "Donate"
+  },
+  "edit": {
+    "save": "Save"
+  },
+  "add-money": {
+    "history": "Payment history",
+    "shortHistory": "Payments"
+  }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import SimpleBar from 'simplebar-react';
 
 import Footer from '@/components/common/Footer';
@@ -78,8 +79,9 @@ PropsType<T>) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const { data: session } = useSession();
+  const { t } = useTranslation('main');
 
-  /*
+  /**
    * Скрываем оверфлоу при открытии сайдбара
    */
   useEffect(() => {
@@ -109,7 +111,7 @@ PropsType<T>) => {
                 <Category
                   key={c}
                   chosen={c === curCategory}
-                  label={c}
+                  label={t('categories.' + c)}
                   id={c}
                   onClick={(c) => {
                     setCategory(c);

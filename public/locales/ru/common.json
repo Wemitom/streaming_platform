@@ -1,0 +1,47 @@
+{
+  "footer": {
+    "back": "Назад",
+    "add": "Пополнить счет",
+    "short-add-money": "Счет",
+    "auth": {
+      "balance": "Баланс: 0&#8381;",
+      "menu": "Меню",
+      "login": "Вход"
+    },
+    "home": {
+      "info": "Информация",
+      "short-info": "Инфо",
+      "terms": "Условия предоставления услуг",
+      "short-terms": "Условия"
+    },
+    "login": {
+      "password": "Забыл пароль",
+      "short-password": "Пароль",
+      "signup": "Создать аккаунт",
+      "short-signup": "Аккаунт"
+    },
+    "signup": {
+      "login-signup": "Войти"
+    },
+    "stream": {
+      "new-challenge": "Новый челлендж",
+      "challenges": "Челленджи",
+      "donate": "Донат"
+    },
+    "edit": {
+      "save": "Сохранить"
+    },
+    "add-money": {
+      "history": "История пополнений",
+      "short-history": "Платежи"
+    }
+  },
+  "menu": {
+    "stream": "Создать стрим",
+    "add-money": "Пополнить счет",
+    "withdraw-money": "Вывод средств",
+    "referral": "Реферальная система",
+    "profile": "Профиль",
+    "sign-out": "Выйти"
+  }
+}

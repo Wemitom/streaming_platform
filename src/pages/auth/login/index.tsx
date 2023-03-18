@@ -1,6 +1,9 @@
+import { getCookie } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { getServerSession } from 'next-auth';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import LoginForm from '@/components/auth/login';
 import Box from '@/components/common/Box';
@@ -8,10 +11,12 @@ import MainLayout from '@/layouts/MainLayout';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 const Login = () => {
+  const { t } = useTranslation('login');
+
   return (
     <>
       <Head>
-        <title>Вход</title>
+        <title>{t('title')}</title>
       </Head>
 
       <MainLayout scrollbarWrapper centerContent>
@@ -31,6 +36,7 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerSession(context.req, context.res, authOptions);
+  const locale = getCookie('locale', { req: context.req, res: context.res });
 
   if (session) {
     return {
@@ -41,7 +47,11 @@ export const getServerSideProps = async (
   } else {
     return {
       props: {
-        session
+        session,
+        ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
+          'common',
+          'login'
+        ]))
       }
     };
   }

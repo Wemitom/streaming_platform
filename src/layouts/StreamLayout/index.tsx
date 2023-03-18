@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
@@ -40,6 +41,7 @@ const StreamLayout = ({
   const [showModal, setShowModal] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { t } = useTranslation('streams');
 
   const changeLayout = () => setMdBP(innerWidth <= MD_BP);
 
@@ -96,8 +98,8 @@ const StreamLayout = ({
               title={
                 !mdBP
                   ? mode === 'view'
-                    ? 'Челленджи'
-                    : 'Новый челлендж'
+                    ? (t('sidebar.challenges') as string)
+                    : (t('sidebar.new-challenge') as string)
                   : undefined
               }
             >
@@ -105,24 +107,24 @@ const StreamLayout = ({
                 streamSidebar.map((c) => (
                   <Category
                     key={c}
-                    label={c}
+                    label={t(c)}
                     id={c}
                     onClick={(c) => {
                       switch (c) {
-                        case 'Назад':
+                        case 'streams.sidebar.back':
                           router.back();
                           break;
-                        case 'Отправить донат':
+                        case 'streams.sidebar.donate':
                           setShowModal(true);
                           break;
-                        case 'Новый челлендж':
+                        case 'streams.sidebar.new-challenge':
                           setMode(newMode);
                           break;
-                        case 'Подписаться':
+                        case 'stream.sidebar.subscribe':
                           /* */
                           break;
-                        case 'Пополнить счет':
-                          /* */
+                        case 'streams.sidebar.add-money':
+                          router.push('/add-money');
                           break;
                       }
                       setShowSidebar(false);
@@ -131,7 +133,7 @@ const StreamLayout = ({
                   />
                 ))
               ) : mode === 'view' ? (
-                <p className="text-center">Здесь пусто</p>
+                <p className="text-center">{t('empty')}</p>
               ) : (
                 <NewChallengeForm />
               )}
@@ -172,26 +174,33 @@ const StreamLayout = ({
         menu
       />
 
-      <Modal show={showModal} hide={() => setShowModal(false)}>
-        <div className="flex flex-col gap-6">
-          <h1 className="text-4xl font-bold">Подарить донат</h1>
-          <div className="flex flex-col gap-4">
-            <p className="text-chat">Сумма:</p>
-            <label
-              className="transition-border flex border-2 border-white/40 px-5 duration-200 focus-within:border-white"
-              htmlFor="donate"
-            >
-              <Input
-                inputAttributes={{
-                  className: 'border-none peer',
-                  name: 'donate'
-                }}
-              />
-              <Image src="/images/send.svg" alt="send" width={25} height={25} />
-            </label>
+      {showModal && (
+        <Modal show={showModal} hide={() => setShowModal(false)}>
+          <div className="flex flex-col gap-6">
+            <h1 className="text-4xl font-bold">{t('modal.donate')}</h1>
+            <div className="flex flex-col gap-4">
+              <p className="text-chat">{t('modal.sum')}:</p>
+              <label
+                className="transition-border flex border-2 border-white/40 px-5 duration-200 focus-within:border-white"
+                htmlFor="donate"
+              >
+                <Input
+                  inputAttributes={{
+                    className: 'border-none peer',
+                    name: 'donate'
+                  }}
+                />
+                <Image
+                  src="/images/send.svg"
+                  alt="send"
+                  width={25}
+                  height={25}
+                />
+              </label>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 };

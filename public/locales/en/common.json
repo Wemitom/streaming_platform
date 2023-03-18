@@ -1,0 +1,47 @@
+{
+  "footer": {
+    "back": "Back",
+    "add": "Add money",
+    "short-add": "Money",
+    "auth": {
+      "balance": "Balance",
+      "menu": "Menu",
+      "login": "Log in"
+    },
+    "home": {
+      "info": "Information",
+      "short-info": "Info",
+      "terms": "Terms of Service",
+      "short-terms": "ToS"
+    },
+    "login": {
+      "password": "Forgot password",
+      "short-password": "Password",
+      "signup": "Create account",
+      "short-signup": "Account"
+    },
+    "signup": {
+      "login-signup": "Log in"
+    },
+    "stream": {
+      "new-challenge": "New challenge",
+      "challenges": "Challenges",
+      "donate": "Donate"
+    },
+    "edit": {
+      "save": "Save"
+    },
+    "add-money": {
+      "history": "Payment history",
+      "short-history": "Payments"
+    }
+  },
+  "menu": {
+    "stream": "Stream",
+    "add-money": "Add money",
+    "withdraw-money": "Withdraw money",
+    "referral": "Referral program",
+    "profile": "Profile",
+    "sign-out": "Sign out"
+  }
+}

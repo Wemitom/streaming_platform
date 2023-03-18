@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 
 import { classNames } from '@/utils/functions';
 
@@ -53,7 +54,7 @@ const FooterButton = ({
           alt={text}
           width={32}
           height={32}
-          className="h-[32px] w-[32px]"
+          className="h-8 w-8"
         />
         <p className={classNames(shortText ? 'hidden lg:block' : '')}>{text}</p>
         {shortText && <p className="block lg:hidden">{shortText}</p>}
@@ -74,7 +75,7 @@ const FooterButton = ({
           alt={text}
           width={32}
           height={32}
-          className="h-[32px] w-[32px]"
+          className="h-8 w-8"
         />
         <p className={classNames(shortText ? 'hidden lg:block' : '')}>{text}</p>
         {shortText && <p className="block lg:hidden">{shortText}</p>}
@@ -107,10 +108,9 @@ const Footer = ({
   listener
 }: PropsFooter) => {
   const [streamFooter, setStreamFooter] = useState<'view' | 'set'>('view');
-
   const router = useRouter();
-
   const { status } = useSession();
+  const { t } = useTranslation('common');
 
   const getNavButtons = (): JSX.Element[] | JSX.Element => {
     const { pathname } = router;
@@ -118,13 +118,13 @@ const Footer = ({
       status === 'authenticated' ? (
         <>
           <p className="sidebar:block ml-auto hidden lg:text-lg">
-            Баланс: 0&#8381;
+            {t('footer.auth.balance')}: 0&#36;
           </p>
           <FooterButton
-            id="hamburger"
+            id="menu"
             type="button"
             handleClick={() => menu && setShowMenu(true)}
-            text="Меню"
+            text={t('footer.auth.menu')}
             right
           />
         </>
@@ -133,10 +133,12 @@ const Footer = ({
           id="login"
           type="link"
           to="/auth/login"
-          text="Вход"
+          text={t('footer.auth.login')}
           right
         />
-      ) : null
+      ) : (
+        <div className="h-8 w-8" />
+      )
     ];
 
     switch (true) {
@@ -147,22 +149,22 @@ const Footer = ({
               id="info"
               type="link"
               to="info"
-              text="Информация"
-              shortText="Инфо"
+              text={t('footer.home.info')}
+              shortText={t('footer.home.short-info') as string}
             />
             <FooterButton
               id="conditions"
               type="link"
               to="/"
-              text="Условия предоставления услуг"
-              shortText="Условия"
+              text={t('footer.home.terms')}
+              shortText={t('footer.home.short-terms') as string}
             />
             <FooterButton
               id="credit"
               type="link"
               to="/add-money"
-              text="Пополнить счет"
-              shortText="Счет"
+              text={t('footer.add')}
+              shortText={t('footer.short-add') as string}
             />
             {...authButtons}
           </>
@@ -174,21 +176,21 @@ const Footer = ({
               id="arrow"
               type="button"
               handleClick={() => router.back()}
-              text="Назад"
+              text={t('footer.back')}
             />
             <FooterButton
               id="password"
               type="link"
               to="/"
-              text="Забыл пароль"
-              shortText="Пароль"
+              text={t('footer.login.password')}
+              shortText={t('footer.login.short-password') as string}
             />
             <FooterButton
               id="account"
               type="link"
               to="/auth/sign-up"
-              text="Создать аккаунт"
-              shortText="Аккаунт"
+              text={t('footer.login.signup')}
+              shortText={t('footer.login.short-signup') as string}
               right
             />
           </>
@@ -201,25 +203,25 @@ const Footer = ({
               type="button"
               handleClick={() => router.back()}
               to="/"
-              text="Назад"
+              text={t('footer.back')}
             />
             <FooterButton
               id="account"
               type="link"
               to="/auth/login"
-              text="Войти"
+              text={t('footer.signup.login-signup')}
               right
             />
           </>
         );
-      case pathname === '/watch/[username]' && !showMenu:
+      case pathname === '/watch/[name]' && !showMenu:
         return (
           <>
             <FooterButton
               id="arrow"
               type="button"
               handleClick={() => router.back()}
-              text="Назад"
+              text={t('footer.back')}
             />
             <FooterButton
               id="challenge"
@@ -230,24 +232,28 @@ const Footer = ({
                   if (res === 'view' || res === 'set') setStreamFooter(res);
                 }
               }}
-              text={streamFooter === 'view' ? 'Новый челлендж' : 'Челленджи'}
+              text={
+                streamFooter === 'view'
+                  ? t('footer.stream.new-challenge')
+                  : t('footer.stream.challenges')
+              }
             />
             <FooterButton
               id="heart"
               type="button"
               handleClick={() => listener && listener('donate')}
-              text="Донат"
+              text={t('footer.stream.donate')}
             />
             <FooterButton
               id="credit"
               type="link"
               to="/add-money"
-              text="Пополнить"
+              text={t('footer.add')}
             />
             {...authButtons}
           </>
         );
-      case pathname === '/profile':
+      case pathname === '/edit/profile':
         return (
           <>
             <FooterButton
@@ -255,13 +261,13 @@ const Footer = ({
               type="button"
               handleClick={() => router.back()}
               to="/"
-              text="Назад"
+              text={t('footer.back')}
             />
             <FooterButton
               id="accept"
               type="button"
               handleClick={() => console.log('save')}
-              text="Сохранить"
+              text={t('footer.edit.save')}
               right
             />
           </>
@@ -273,15 +279,14 @@ const Footer = ({
               id="arrow"
               type="button"
               handleClick={() => router.back()}
-              to="/"
-              text="Назад"
+              text={t('footer.back')}
             />
             <FooterButton
               id="info"
               type="link"
               to="/history"
-              text="История пополнений"
-              shortText="Платежи"
+              text={t('footer.add-money.history')}
+              shortText={t('footer.add-money.short-history') as string}
             />
           </>
         );
@@ -293,7 +298,7 @@ const Footer = ({
             handleClick={() =>
               !showMenu ? router.back() : menu && setShowMenu(false)
             }
-            text="Назад"
+            text={t('footer.back')}
           />
         );
     }
