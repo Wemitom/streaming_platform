@@ -56,7 +56,7 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
     >
       <SimpleBar
         className={classNames(
-          'w-full p-3 bg-primary/50 backdrop-blur-[16px_opacity(0)] h-full',
+          'w-full p-3 bg-primary/50 backdrop-blur-[16px_opacity(0)] h-full bac',
           show ? 'animate-fade-in-backdrop' : 'animate-fade-out-backdrop'
         )}
         autoHide={false}

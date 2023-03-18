@@ -266,6 +266,25 @@ const Footer = ({
             />
           </>
         );
+      case pathname === '/add-money':
+        return (
+          <>
+            <FooterButton
+              id="arrow"
+              type="button"
+              handleClick={() => router.back()}
+              to="/"
+              text="Назад"
+            />
+            <FooterButton
+              id="info"
+              type="link"
+              to="/history"
+              text="История пополнений"
+              shortText="Платежи"
+            />
+          </>
+        );
       default:
         return (
           <FooterButton
