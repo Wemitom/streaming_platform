@@ -17,7 +17,7 @@
 8. Make other func like search, follow, etc.
 9. Make sure thats everything is secure (!!)
 10. Make some sort of admin panel (?)
-11. Localization through i18n library
+11. ~~Localization through i18n library~~
 12. Figure out chat moderation layout (?)
 
 (!! - current tasks, ! - secondary, ? - maybe)

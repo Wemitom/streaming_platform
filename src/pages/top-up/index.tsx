@@ -1,3 +1,4 @@
+import parser from 'accept-language-parser';
 import { getCookie } from 'cookies-next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
@@ -66,7 +67,9 @@ export const getServerSideProps = async ({
   req: NextApiRequest;
   res: NextApiResponse;
 }) => {
-  const locale = getCookie('locale', { req, res });
+  const locale =
+    getCookie('locale', { req, res }) ??
+    parser.parse(req.headers['accept-language'])[0].code;
 
   return {
     props: {

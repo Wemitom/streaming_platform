@@ -1,3 +1,4 @@
+import parser from 'accept-language-parser';
 import { getCookie } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
@@ -36,7 +37,9 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerSession(context.req, context.res, authOptions);
-  const locale = getCookie('locale', { req: context.req, res: context.res });
+  const locale =
+    getCookie('locale', { req: context.req, res: context.res }) ??
+    parser.parse(context.req.headers['accept-language'])[0].code;
 
   if (session) {
     return {

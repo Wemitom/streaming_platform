@@ -20,8 +20,7 @@ import hamburgerSVG from 'public/images/hamburger.svg';
 import 'simplebar-react/dist/simplebar.min.css';
 
 const StreamLayout = ({
-  children,
-  locale
+  children
 }: {
   children:
     | (({
@@ -33,7 +32,6 @@ const StreamLayout = ({
       }) => JSX.Element[] | JSX.Element)
     | JSX.Element[]
     | JSX.Element;
-  locale: 'ru' | 'en';
 }) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -78,7 +76,6 @@ const StreamLayout = ({
     <>
       <Header
         showSidebar={() => setShowSidebar((prevState) => !prevState)}
-        locale={locale}
         sidebar
         hidePhone
       />

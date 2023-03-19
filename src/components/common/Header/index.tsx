@@ -55,7 +55,9 @@ const Header = ({
         <p>{t('header.lang').toUpperCase()}</p>
         <button
           onClick={() => {
-            setCookie('locale', t('header.lang') === 'ru' ? 'en' : 'ru');
+            setCookie('locale', t('header.lang') === 'ru' ? 'en' : 'ru', {
+              expires: new Date(Date.now() + 5 * 3.154e10)
+            });
             router.reload();
           }}
         >
