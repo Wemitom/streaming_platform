@@ -31,7 +31,7 @@ const validationSchema = yup
     passwordConfirm: yup
       .string()
       .required('form.required')
-      .oneOf([yup.ref('password')], 'form.password-not-much')
+      .oneOf([yup.ref('password')], 'form.password-not-match')
   })
   .required();
 type SignupData = yup.InferType<typeof validationSchema>;

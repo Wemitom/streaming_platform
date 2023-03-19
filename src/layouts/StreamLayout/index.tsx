@@ -20,7 +20,8 @@ import hamburgerSVG from 'public/images/hamburger.svg';
 import 'simplebar-react/dist/simplebar.min.css';
 
 const StreamLayout = ({
-  children
+  children,
+  locale
 }: {
   children:
     | (({
@@ -32,6 +33,7 @@ const StreamLayout = ({
       }) => JSX.Element[] | JSX.Element)
     | JSX.Element[]
     | JSX.Element;
+  locale: 'ru' | 'en';
 }) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -76,6 +78,7 @@ const StreamLayout = ({
     <>
       <Header
         showSidebar={() => setShowSidebar((prevState) => !prevState)}
+        locale={locale}
         sidebar
         hidePhone
       />
@@ -111,20 +114,20 @@ const StreamLayout = ({
                     id={c}
                     onClick={(c) => {
                       switch (c) {
-                        case 'streams.sidebar.back':
+                        case 'sidebar.back':
                           router.back();
                           break;
-                        case 'streams.sidebar.donate':
+                        case 'sidebar.donate':
                           setShowModal(true);
                           break;
-                        case 'streams.sidebar.new-challenge':
+                        case 'sidebar.new-challenge':
                           setMode(newMode);
                           break;
-                        case 'stream.sidebar.subscribe':
+                        case 'sidebar.subscribe':
                           /* */
                           break;
-                        case 'streams.sidebar.add-money':
-                          router.push('/add-money');
+                        case 'sidebar.add-money':
+                          router.push('/top-up');
                           break;
                       }
                       setShowSidebar(false);

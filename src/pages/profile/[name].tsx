@@ -1,5 +1,9 @@
+import { getCookie } from 'cookies-next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Box from '@/components/common/Box';
 import Button from '@/components/common/Button';
@@ -7,11 +11,14 @@ import MainLayout from '@/layouts/MainLayout';
 
 const Profile = () => {
   const { query } = useRouter();
+  const { t } = useTranslation('profile');
 
   return (
     <>
       <Head>
-        <title>Профиль {query.name}</title>
+        <title>
+          {t('title')} {query.name}
+        </title>
       </Head>
 
       <MainLayout scrollbarWrapper centerContent>
@@ -22,14 +29,14 @@ const Profile = () => {
                 <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border-2 sm:mx-0" />
                 <div className="flex flex-col gap-3">
                   <p>@{query.name}</p>
-                  <h3>Подписчики: 0</h3>
-                  <Button text="Подписаться" type="sm" />
-                  <h3>Тэги:</h3>
+                  <h3>{t('subs')}: 0</h3>
+                  <Button text={t('sub')} type="sm" />
+                  <h3>{t('tags')}:</h3>
                 </div>
               </div>
 
               <div className="flex flex-col gap-3">
-                <h3>О себе:</h3>
+                <h3>{t('about')}:</h3>
                 <div className="bg-footer/[0.08] rounded-5 h-fit w-full">
                   <div className="p-3">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -52,3 +59,22 @@ const Profile = () => {
 };
 
 export default Profile;
+
+export const getServerSideProps = async ({
+  req,
+  res
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
+  const locale = getCookie('locale', { req, res });
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
+        'common',
+        'profile'
+      ]))
+    }
+  };
+};

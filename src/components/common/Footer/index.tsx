@@ -162,7 +162,7 @@ const Footer = ({
             <FooterButton
               id="credit"
               type="link"
-              to="/add-money"
+              to="/top-up"
               text={t('footer.add')}
               shortText={t('footer.short-add') as string}
             />
@@ -247,7 +247,7 @@ const Footer = ({
             <FooterButton
               id="credit"
               type="link"
-              to="/add-money"
+              to="/top-up"
               text={t('footer.add')}
             />
             {...authButtons}
@@ -272,7 +272,7 @@ const Footer = ({
             />
           </>
         );
-      case pathname === '/add-money':
+      case pathname === '/top-up':
         return (
           <>
             <FooterButton

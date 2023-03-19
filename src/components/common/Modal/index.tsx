@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 
 import Image from 'next/image';
+import { useTranslation } from 'next-i18next';
 
 import { classNames } from '@/utils/functions';
 import arrowSVG from 'public/images/arrow.svg';
@@ -18,6 +19,7 @@ const Modal = ({
     ({ key }: KeyboardEvent) => key === 'Escape' && hide(),
     [hide]
   );
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     if (show) document.addEventListener('keydown', hideOnEsc);
@@ -42,7 +44,7 @@ const Modal = ({
           {children}
           <button className="ml-auto flex gap-1" onClick={hide}>
             <Image src={arrowSVG} alt="close" />
-            <p>Назад</p>
+            <p>{t('footer.back')}</p>
           </button>
         </div>
       </div>

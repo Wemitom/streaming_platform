@@ -7,7 +7,7 @@ const Spinner = () => {
     <Image
       priority
       src={spinnerSVG}
-      className="animate-spin"
+      className="h-16 w-auto animate-spin"
       alt="spinner"
       width={64}
       height={64}

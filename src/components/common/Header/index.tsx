@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { getCookie, setCookie } from 'cookies-next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { classNames } from '@/utils/functions';
 import hamburgerSVG from 'public/images/hamburger.svg';
@@ -15,6 +18,9 @@ const Header = ({
   sidebar?: boolean;
   hidePhone?: boolean;
 }) => {
+  const { t } = useTranslation('common');
+  const router = useRouter();
+
   return (
     <header
       className={classNames(
@@ -45,6 +51,24 @@ const Header = ({
           )}
         />
       </Link>
+      <div className="ml-auto mr-4 flex items-center gap-3">
+        <p>{t('header.lang').toUpperCase()}</p>
+        <button
+          onClick={() => {
+            setCookie('locale', t('header.lang') === 'ru' ? 'en' : 'ru');
+            router.reload();
+          }}
+        >
+          <Image
+            priority
+            src={`/images/${t('header.lang')}.svg`}
+            alt={t('header.lang') + '_flag'}
+            className="h-7 w-auto"
+            width={41}
+            height={28}
+          />
+        </button>
+      </div>
     </header>
   );
 };

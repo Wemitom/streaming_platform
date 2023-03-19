@@ -24,6 +24,7 @@ interface CommonProps {
   autoHideScroll?: boolean;
   scrollbarWrapper?: boolean;
   centerContent?: boolean;
+  locale?: string;
 }
 interface RequireSidebar<T extends string>
   extends PropsWithSidebar<T>,
@@ -58,6 +59,10 @@ const MainLayout = <T extends string>({
   centerContent,
   /**
    * Нужно ли расположить контент по центру
+   */
+  locale,
+  /**
+   * Строка для локализации из .json
    */
   curCategory,
   /**
@@ -111,7 +116,7 @@ PropsType<T>) => {
                 <Category
                   key={c}
                   chosen={c === curCategory}
-                  label={t('categories.' + c)}
+                  label={t((locale ?? '') + c)}
                   id={c}
                   onClick={(c) => {
                     setCategory(c);

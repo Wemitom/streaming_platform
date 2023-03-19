@@ -2,9 +2,9 @@
   "footer": {
     "back": "Назад",
     "add": "Пополнить счет",
-    "short-add-money": "Счет",
+    "short-add": "Счет",
     "auth": {
-      "balance": "Баланс: 0&#8381;",
+      "balance": "Баланс",
       "menu": "Меню",
       "login": "Вход"
     },
@@ -43,5 +43,8 @@
     "referral": "Реферальная система",
     "profile": "Профиль",
     "sign-out": "Выйти"
+  },
+  "header": {
+    "lang": "ru"
   }
 }

@@ -1,8 +1,8 @@
 {
   "footer": {
     "back": "Back",
-    "add": "Add money",
-    "short-add": "Money",
+    "add": "Top up balance",
+    "short-add": "Top up",
     "auth": {
       "balance": "Balance",
       "menu": "Menu",
@@ -38,10 +38,13 @@
   },
   "menu": {
     "stream": "Stream",
-    "add-money": "Add money",
+    "add-money": "Top up balance",
     "withdraw-money": "Withdraw money",
     "referral": "Referral program",
     "profile": "Profile",
     "sign-out": "Sign out"
+  },
+  "header": {
+    "lang": "en"
   }
 }

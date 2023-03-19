@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
+import { getCookie } from 'cookies-next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Box from '@/components/common/Box';
 import MainLayout from '@/layouts/MainLayout';
@@ -36,3 +39,19 @@ const Info = () => {
 };
 
 export default Info;
+
+export const getServerSideProps = async ({
+  req,
+  res
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
+  const locale = getCookie('locale', { req, res });
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale?.toString() ?? 'ru', ['common']))
+    }
+  };
+};

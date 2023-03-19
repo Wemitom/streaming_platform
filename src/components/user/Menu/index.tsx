@@ -75,7 +75,7 @@ const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
           <Link href={`/watch/${session?.name}`} onClick={hide}>
             {t('menu.stream')}
           </Link>
-          <Link href="/add-money">{t('menu.add-money')}</Link>
+          <Link href="/top-up">{t('menu.add-money')}</Link>
           <Link href="/withdraw-money">{t('menu.withdraw-money')}</Link>
           <Link href="/referral">{t('menu.referral')}</Link>
           {/* <p className="cursor-pointer">Настройки</p> */}

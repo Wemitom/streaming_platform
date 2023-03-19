@@ -1,15 +1,21 @@
 import React from 'react';
 
+import { getCookie } from 'cookies-next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Box from '@/components/common/Box';
 import MainLayout from '@/layouts/MainLayout';
 
 const History = () => {
+  const { t } = useTranslation('history');
+
   return (
     <>
       <Head>
-        <title>Вывод средств</title>
+        <title>{t('title')}</title>
       </Head>
 
       <MainLayout scrollbarWrapper centerContent>
@@ -24,25 +30,25 @@ const History = () => {
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p>Сумма пополнений</p>
+                  <p>{t('total')}</p>
                   <div className="hidden h-0 w-full border-b md:block" />
                   <p>50</p>
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p>Платежная система</p>
+                  <p>{t('payment')}</p>
                   <div className="hidden h-0 w-full border-b md:block" />
                   <p>Bitcoin</p>
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p>Статус</p>
+                  <p>{t('status')}</p>
                   <div className="hidden h-0 w-full border-b md:block" />
                   <p>Ожидание</p>
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p>Дата</p>
+                  <p>{t('date')}</p>
                   <div className="hidden h-0 w-full border-b md:block" />
                   <p>2023-02-28</p>
                 </div>
@@ -55,22 +61,22 @@ const History = () => {
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p className="md:invisible md:h-0">Сумма пополнений</p>
+                  <p className="md:invisible md:h-0">{t('total')}</p>
                   <p>50</p>
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p className="md:invisible md:h-0">Платежная система</p>
+                  <p className="md:invisible md:h-0">{t('payment')}</p>
                   <p>Bitcoin</p>
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p className="md:invisible md:h-0">Статус</p>
+                  <p className="md:invisible md:h-0">{t('status')}</p>
                   <p>Ожидание</p>
                 </div>
 
                 <div className="flex justify-between md:flex-col md:justify-start">
-                  <p className="md:invisible md:h-0">Дата</p>
+                  <p className="md:invisible md:h-0">{t('date')}</p>
                   <p>2023-02-28</p>
                 </div>
               </div>
@@ -83,3 +89,22 @@ const History = () => {
 };
 
 export default History;
+
+export const getServerSideProps = async ({
+  req,
+  res
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
+  const locale = getCookie('locale', { req, res });
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
+        'common',
+        'history'
+      ]))
+    }
+  };
+};

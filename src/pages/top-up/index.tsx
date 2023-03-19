@@ -4,9 +4,9 @@ import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import PaymentMethod from '@/components/add-money/PaymentMethod';
 import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
+import PaymentMethod from '@/components/top-up/PaymentMethod';
 import MainLayout from '@/layouts/MainLayout';
 
 const AddMoney = () => {

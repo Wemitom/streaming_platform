@@ -1,5 +1,9 @@
+import { getCookie } from 'cookies-next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
@@ -16,11 +20,13 @@ const InputDiv = ({ children }: { children: JSX.Element[] }) => {
 
 const ProfileEdit = () => {
   const { data: session } = useSession();
+  const { t } = useTranslation('edit');
+  const { t: tTags } = useTranslation('main');
 
   return (
     <>
       <Head>
-        <title>Редактирование</title>
+        <title>{t('title')}</title>
       </Head>
 
       <MainLayout scrollbarWrapper centerContent>
@@ -29,7 +35,7 @@ const ProfileEdit = () => {
             <div className="flex flex-col items-center gap-9 py-11 px-10 sm:px-16">
               <div className="relative mb-3 aspect-square w-32 overflow-hidden rounded-full border-2" />
               <InputDiv>
-                <p className="w-1/3">Ваше имя:</p>
+                <p className="w-1/3">{t('name')}:</p>
                 <Input
                   inputAttributes={{
                     type: 'text',
@@ -49,11 +55,11 @@ const ProfileEdit = () => {
                 />
               </InputDiv>
               <InputDiv>
-                <p className="w-1/3">О себе:</p>
+                <p className="w-1/3">{t('about')}:</p>
                 <textarea className="rounded-5 h-32 w-full border-2 bg-transparent py-5 pl-8 text-lg outline-none sm:text-xl" />
               </InputDiv>
               <InputDiv>
-                <p className="w-1/3">Теги:</p>
+                <p className="w-1/3">{t('tags')}:</p>
                 <div className="rounded-5 flex h-auto w-full flex-col gap-2 border-2 bg-transparent p-4">
                   {categories.map((c, i) => {
                     if (i) {
@@ -72,7 +78,7 @@ const ProfileEdit = () => {
                             className="h-5 w-5 cursor-pointer rounded-sm border bg-clip-content p-1 peer-checked:bg-white"
                           />
                           <label htmlFor={c} className="cursor-pointer">
-                            {c}
+                            {tTags('categories.' + c)}
                           </label>
                         </div>
                       );
@@ -89,3 +95,23 @@ const ProfileEdit = () => {
 };
 
 export default ProfileEdit;
+
+export const getServerSideProps = async ({
+  req,
+  res
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
+  const locale = getCookie('locale', { req, res });
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
+        'common',
+        'edit',
+        'main'
+      ]))
+    }
+  };
+};

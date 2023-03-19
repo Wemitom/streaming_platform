@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useTranslation } from 'next-i18next';
 import useSWR from 'swr';
 
 import Spinner from '@/components/common/Spinner';
@@ -12,14 +13,18 @@ const Streams = ({ category }: { category: Categories }) => {
     data: streams,
     error,
     isLoading
-  } = useSWR<StreamPreviewInterface[], Error>('/api/streams', (arg: string) =>
-    axios.get(arg).then((res) => res.data)
+  } = useSWR<StreamPreviewInterface[], Error>(
+    '/api/streams',
+    (arg: string) => axios.get(arg).then((res) => res.data),
+    { refreshInterval: 30000 }
   );
+  const { t } = useTranslation('stream-preview');
 
   if (isLoading) {
     return (
-      <div className="mt-3 flex w-full items-center justify-center">
+      <div className="mt-3 flex w-full flex-col items-center justify-center gap-6">
         <Spinner />
+        <p>{t('loading')}...</p>
       </div>
     );
   } else if (streams) {
@@ -32,14 +37,16 @@ const Streams = ({ category }: { category: Categories }) => {
               <StreamPreview key={`stream_${stream.username}`} {...stream} />
             ))
         ) : (
-          <h2 className="w-full text-center text-2xl font-bold">Здесь пусто</h2>
+          <h2 className="w-full text-center text-2xl font-bold">
+            {t('empty')}
+          </h2>
         )}
       </div>
     );
   } else {
     return (
       <div className="mt-3 flex w-full items-center justify-center text-2xl font-bold">
-        При загрузке произошла ошибка
+        {t('error')}
       </div>
     );
   }

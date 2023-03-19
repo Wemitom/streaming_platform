@@ -1,0 +1,10 @@
+{
+  "title": "Referral program",
+  "link": "Referral link",
+  "total": "Total earned",
+  "referrals": "<0>Referrals</0> <1>First level: {{firstLevel}}</1> <2>Second level: {{secondLevel}}</2>",
+  "deposits": "<0>Top ups</0> <1>Quantity: {{num}}</1> <2>Total: {{sum}}$</2>",
+  "streams": "<0>Streams</0> <1>Donations: {{donations}}$</>",
+  "about": "How can you earn with our referral program?",
+  "description": "<0>Recomend our site to others and earn:</0><1>5% from every donation from your referral</1><2>5% from total earned of each stream from your referral</2><3>If your referral also used our partner program, you will get:</3><4>2,5% from every donation from user invited by your referral</4><5>2,5% from total earned of each stream from your user invited by your referral</5><6>Just tell about Potok to your subscribers or friends, give them your referral link and start earning lifetime profit from each of their deposits or streams!</6><7>You earn money from both new viewers and streamers which will surely appear and start fiving lifetime profit.</7>"
+}

@@ -26,6 +26,7 @@ export default function Home() {
         curCategory={category}
         categories={categories}
         setCategory={setCategory}
+        locale="categories."
         icons={categoryIcon}
       >
         <Streams category={category} />
@@ -48,7 +49,8 @@ export const getServerSideProps = async ({
       ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
         'common',
         'home',
-        'main'
+        'main',
+        'stream-preview'
       ]))
     }
   };
