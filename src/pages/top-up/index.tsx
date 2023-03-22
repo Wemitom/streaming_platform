@@ -9,6 +9,7 @@ import Box from '@/components/common/Box';
 import Input from '@/components/common/Input';
 import PaymentMethod from '@/components/top-up/PaymentMethod';
 import MainLayout from '@/layouts/MainLayout';
+import { getTranslation } from '@/utils/functions/getTranslation';
 
 const AddMoney = () => {
   const { t } = useTranslation('add-money');
@@ -67,16 +68,7 @@ export const getServerSideProps = async ({
   req: NextApiRequest;
   res: NextApiResponse;
 }) => {
-  const locale =
-    getCookie('locale', { req, res }) ??
-    parser.parse(req.headers['accept-language'])[0].code;
-
   return {
-    props: {
-      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
-        'common',
-        'add-money'
-      ]))
-    }
+    props: getTranslation(req, res, ['common', 'add-money'])
   };
 };

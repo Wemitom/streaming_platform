@@ -18,6 +18,7 @@ import NewChallengeForm from '@/components/stream/NewChallengeForm';
 import Player from '@/components/stream/Player';
 import StreamLayout from '@/layouts/StreamLayout';
 import { classNames } from '@/utils/functions';
+import { getTranslation } from '@/utils/functions/getTranslation';
 
 const Stream = () => {
   const [chosenFunc, setChosenFunc] = useState<'chat' | 'challenges'>('chat');
@@ -168,17 +169,13 @@ export const getServerSideProps = async ({
   req: NextApiRequest;
   res: NextApiResponse;
 }) => {
-  const locale = getCookie('locale', { req, res });
-
   return {
-    props: {
-      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
-        'common',
-        'stream',
-        'streams',
-        'new-challenge',
-        'chat'
-      ]))
-    }
+    props: getTranslation(req, res, [
+      'common',
+      'stream',
+      'streams',
+      'new-challenge',
+      'chat'
+    ])
   };
 };

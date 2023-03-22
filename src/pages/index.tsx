@@ -1,15 +1,13 @@
 import { useState } from 'react';
 
-import parser from 'accept-language-parser';
-import { getCookie } from 'cookies-next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Streams from '@/components/home/Streams';
 import MainLayout from '@/layouts/MainLayout';
 import { Categories, categories, categoryIcon } from '@/utils/constants';
+import { getTranslation } from '@/utils/functions/getTranslation';
 
 export default function Home() {
   const [category, setCategory] = useState<Categories>('all');
@@ -43,18 +41,12 @@ export const getServerSideProps = async ({
   req: NextApiRequest;
   res: NextApiResponse;
 }) => {
-  const locale =
-    getCookie('locale', { req, res }) ??
-    parser.parse(req.headers['accept-language'])[0].code;
-
   return {
-    props: {
-      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
-        'common',
-        'home',
-        'main',
-        'stream-preview'
-      ]))
-    }
+    props: getTranslation(req, res, [
+      'common',
+      'home',
+      'main',
+      'stream-preview'
+    ])
   };
 };

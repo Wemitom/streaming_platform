@@ -1,15 +1,17 @@
-import parser from 'accept-language-parser';
-import { getCookie } from 'cookies-next';
-import { GetServerSidePropsContext } from 'next';
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse
+} from 'next';
 import Head from 'next/head';
 import { getServerSession } from 'next-auth';
 import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import LoginForm from '@/components/auth/login';
 import Box from '@/components/common/Box';
 import MainLayout from '@/layouts/MainLayout';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getTranslation } from '@/utils/functions/getTranslation';
 
 const Login = () => {
   const { t } = useTranslation('login');
@@ -37,9 +39,6 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerSession(context.req, context.res, authOptions);
-  const locale =
-    getCookie('locale', { req: context.req, res: context.res }) ??
-    parser.parse(context.req.headers['accept-language'])[0].code;
 
   if (session) {
     return {
@@ -49,13 +48,11 @@ export const getServerSideProps = async (
     };
   } else {
     return {
-      props: {
-        session,
-        ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
-          'common',
-          'login'
-        ]))
-      }
+      props: getTranslation(
+        context.req as NextApiRequest,
+        context.res as NextApiResponse,
+        ['common', 'login']
+      )
     };
   }
 };

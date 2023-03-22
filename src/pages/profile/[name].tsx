@@ -9,6 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Box from '@/components/common/Box';
 import Button from '@/components/common/Button';
 import MainLayout from '@/layouts/MainLayout';
+import { getTranslation } from '@/utils/functions/getTranslation';
 
 const Profile = () => {
   const { query } = useRouter();
@@ -68,16 +69,7 @@ export const getServerSideProps = async ({
   req: NextApiRequest;
   res: NextApiResponse;
 }) => {
-  const locale =
-    getCookie('locale', { req, res }) ??
-    parser.parse(req.headers['accept-language'])[0].code;
-
   return {
-    props: {
-      ...(await serverSideTranslations(locale?.toString() ?? 'ru', [
-        'common',
-        'profile'
-      ]))
-    }
+    props: getTranslation(req, res, ['common', 'profile'])
   };
 };

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useEffect } from 'react';
 
-import { getCookie, setCookie } from 'cookies-next';
+import { setCookie } from 'cookies-next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,6 +20,10 @@ const Header = ({
 }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', t('header.lang'));
+  });
 
   return (
     <header
