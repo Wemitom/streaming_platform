@@ -61,3 +61,10 @@ export const sidebarIcon: Record<StreamSidebar, string | undefined> = {
   'sidebar.donate': '/images/heart.svg',
   'sidebar.add-money': '/images/credit.svg'
 };
+
+const isCategoryInfo = (
+  categoryInfo: string
+): asserts categoryInfo is CategoriesInfo => {
+  if (!categoriesInfo.includes(categoryInfo as CategoriesInfo))
+    throw new Error('Category expected');
+};

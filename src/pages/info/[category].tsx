@@ -1,10 +1,8 @@
 import { useState } from 'react';
 
-import parser from 'accept-language-parser';
-import { getCookie } from 'cookies-next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
 
 import Box from '@/components/common/Box';
 import MainLayout from '@/layouts/MainLayout';
@@ -12,7 +10,13 @@ import { CategoriesInfo, categoriesInfo, infoContent } from '@/utils/constants';
 import { getTranslation } from '@/utils/functions/getTranslation';
 
 const Info = () => {
-  const [categoryInfo, setCategoryInfo] = useState<CategoriesInfo>('A');
+  const { query } = useRouter();
+  const { category } = query;
+  const [categoryInfo, setCategoryInfo] = useState<CategoriesInfo>(
+    categoriesInfo.includes(category as CategoriesInfo)
+      ? (category as CategoriesInfo)
+      : categoriesInfo[0]
+  );
 
   return (
     <>
@@ -44,11 +48,21 @@ export default Info;
 
 export const getServerSideProps = async ({
   req,
-  res
+  res,
+  params
 }: {
   req: NextApiRequest;
   res: NextApiResponse;
+  params: { category: string };
 }) => {
+  if (
+    params.category &&
+    !categoriesInfo.includes(params.category as CategoriesInfo)
+  ) {
+    return {
+      notFound: true
+    };
+  }
   return {
     props: getTranslation(req, res, ['common'])
   };
