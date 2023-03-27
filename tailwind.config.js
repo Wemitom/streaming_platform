@@ -59,7 +59,7 @@ module.exports = {
         custom12: '12px'
       },
       animation: {
-        'slide-in-left': 'slideInLeft 0.3s ease-in-out',
+        'slide-in-left': 'slideInLeft 0.3s ease-in-out forwards',
         'slide-out-left': 'slideOutLeft 0.3s ease-in-out forwards',
         'slide-in-right': 'slideInRight 0.3s ease-in-out',
         'slide-out-right': 'slideOutRight 0.3s ease-in-out forwards',

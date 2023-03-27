@@ -148,7 +148,7 @@ const Footer = ({
             <FooterButton
               id="info"
               type="link"
-              to="info"
+              to="info/A"
               text={t('footer.home.info')}
               shortText={t('footer.home.short-info') as string}
             />

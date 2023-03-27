@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { classNames } from '@/utils/functions';
+import useEscapeKey from '@/utils/hooks/useEscapeKey';
 import arrowSVG from 'public/images/arrow.svg';
 
 const Modal = ({
@@ -15,20 +16,8 @@ const Modal = ({
   show: boolean;
   hide: () => void;
 }) => {
-  const hideOnEsc = useCallback(
-    ({ key }: KeyboardEvent) => key === 'Escape' && hide(),
-    [hide]
-  );
   const { t } = useTranslation('common');
-
-  useEffect(() => {
-    if (show) document.addEventListener('keydown', hideOnEsc);
-    else document.removeEventListener('keydown', hideOnEsc);
-
-    return () => {
-      document.removeEventListener('keydown', hideOnEsc);
-    };
-  }, [hideOnEsc, show]);
+  useEscapeKey(() => hide(), show);
 
   return (
     <div

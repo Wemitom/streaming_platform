@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
@@ -10,13 +10,17 @@ import { CategoriesInfo, categoriesInfo, infoContent } from '@/utils/constants';
 import { getTranslation } from '@/utils/functions/getTranslation';
 
 const Info = () => {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const { category } = query;
   const [categoryInfo, setCategoryInfo] = useState<CategoriesInfo>(
     categoriesInfo.includes(category as CategoriesInfo)
       ? (category as CategoriesInfo)
       : categoriesInfo[0]
   );
+
+  useEffect(() => {
+    push('/info/' + encodeURI(categoryInfo));
+  }, [categoryInfo, push]);
 
   return (
     <>

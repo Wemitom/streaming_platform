@@ -6,50 +6,18 @@ import { useTranslation } from 'next-i18next';
 import SimpleBar from 'simplebar-react';
 
 import { classNames } from '@/utils/functions';
+import useEscapeKey from '@/utils/hooks/useEscapeKey';
+import useHideTimeout from '@/utils/hooks/useHideTimeout';
 
 const Menu = ({ show, hide }: { show: boolean; hide: () => void }) => {
   const { data: session } = useSession();
   const { t } = useTranslation('common');
 
-  const refAside = useRef<null | HTMLDivElement>(null);
-
-  const close = useCallback(
-    ({ key }: KeyboardEvent) => key === 'Escape' && hide(),
-    [hide]
-  );
-
+  const { setShow, ref: refAside } = useHideTimeout(300);
   useEffect(() => {
-    if (show) document.addEventListener('keydown', close);
-    else document.removeEventListener('keydown', close);
-
-    return () => {
-      document.removeEventListener('keydown', close);
-    };
-  }, [show, close]);
-
-  useEffect(() => {
-    let tm: NodeJS.Timeout;
-    if (show && refAside) {
-      document.body.classList.add('overflow-hidden');
-      tm = setTimeout(
-        () => document.body.classList.remove('overflow-hidden'),
-        300
-      );
-      refAside.current?.classList.remove('hidden');
-      refAside.current?.classList.add('flex');
-    } else if (!show && refAside) {
-      document.body.classList.add('overflow-hidden');
-      tm = setTimeout(() => {
-        document.body.classList.remove('overflow-hidden');
-        refAside.current?.classList.add('hidden');
-        refAside.current?.classList.remove('flex');
-      }, 300);
-    }
-
-    return () => {
-      clearTimeout(tm);
-    };
-  }, [show]);
+    setShow(show);
+  }, [show, setShow]);
+  useEscapeKey(() => hide(), show);
 
   return (
     <aside

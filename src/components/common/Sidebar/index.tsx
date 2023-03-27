@@ -4,6 +4,8 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 
 import { classNames } from '@/utils/functions';
+import useEscapeKey from '@/utils/hooks/useEscapeKey';
+import useHideTimeout from '@/utils/hooks/useHideTimeout';
 import useOutsideClickDetect from '@/utils/hooks/useOutsideClickDetect';
 
 const Sidebar = ({
@@ -19,28 +21,14 @@ const Sidebar = ({
   hide: () => void;
   custom?: boolean;
 }) => {
-  const refAside = useRef<null | HTMLDivElement>(null);
+  const { setShow, ref: refAside } = useHideTimeout(300);
+  useEffect(() => {
+    setShow(show);
+  }, [show, setShow]);
+  useEscapeKey(() => hide(), show);
 
   const ref = useRef<null | HTMLDivElement>(null);
   useOutsideClickDetect(ref, hide);
-
-  useEffect(() => {
-    let tm: NodeJS.Timeout;
-
-    if (show && refAside) {
-      refAside.current?.classList.remove('hidden');
-      refAside.current?.classList.add('flex');
-    } else if (!show && refAside) {
-      tm = setTimeout(() => {
-        refAside.current?.classList.add('hidden');
-        refAside.current?.classList.remove('flex');
-      }, 300);
-    }
-
-    return () => {
-      clearTimeout(tm);
-    };
-  }, [show]);
 
   return (
     <aside
