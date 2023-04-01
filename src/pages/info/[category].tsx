@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
@@ -12,16 +12,27 @@ import { getTranslation } from '@/utils/functions/getTranslation';
 const Info = () => {
   const { query, push } = useRouter();
   const { category } = query;
+  const getCategory = useCallback(
+    () =>
+      categoriesInfo.includes(category as CategoriesInfo)
+        ? (category as CategoriesInfo)
+        : categoriesInfo[0],
+    [category]
+  );
+
   const [categoryInfo, setCategoryInfo] = useState<CategoriesInfo>(
-    categoriesInfo.includes(category as CategoriesInfo)
-      ? (category as CategoriesInfo)
-      : categoriesInfo[0]
+    getCategory()
   );
 
   useEffect(() => {
     push('/info/' + encodeURI(categoryInfo));
-  }, [categoryInfo, push]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryInfo]);
 
+  useEffect(() => {
+    setCategoryInfo(getCategory());
+  }, [category, getCategory]);
+  console.log('render');
   return (
     <>
       <Head>
